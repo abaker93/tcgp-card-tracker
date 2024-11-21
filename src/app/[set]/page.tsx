@@ -1,8 +1,6 @@
-export default async function Page({
-  params,
-} : {
-  params: Promise<{ set: string }>
-}) {
+import Card from "../ui/elements/card"
+
+const Page = async ({ params }: { params: Promise<{ set: string }> }) => {
   const set = (await params).set
 
 	const fetchCards = async () => {
@@ -17,16 +15,12 @@ export default async function Page({
 		<main className="min-h-screen bg-fixed bg-gradient-to-b from-sky-50 to-blue-50 dark:from-blue-950 dark:to-slate-900">
 
 			<div className="max-w-7x1 mx-auto p-8">
-				
+
 				<h1>Cards</h1>
 
 				<div className="grid grid-cols-8 gap-10">
-					{cards.map((card:any) => (
-						<div key={card._id}>
-							<h2>{card.name}</h2>
-							<p>{card.energy}</p>
-							<p>{card.description}</p>
-						</div>
+					{cards.sort((a:any,b:any) => a.order - b.order).map((card:any) => (
+						<Card key={card._id} poke={card} />
 					))}
 				</div>
 
@@ -35,3 +29,5 @@ export default async function Page({
 		</main>
 	)
 }
+
+export default Page

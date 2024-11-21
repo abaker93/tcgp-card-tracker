@@ -12,7 +12,7 @@ export async function GET(
 
 	try {
 		const cards = await Card.find({
-			"sets.code": { $regex: new RegExp(set, "i") }
+			"set": { $regex: new RegExp(set, "i") }
 		})
 		console.log(set)
 		return NextResponse.json(cards)
