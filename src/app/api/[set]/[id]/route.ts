@@ -4,15 +4,17 @@ import { NextResponse } from "next/server"
 
 export async function GET(
 	request: Request,
-	{ params }: { params: Promise <{ set: string }> }
+	{ params }: { params: Promise <{ set: string, id: number }> }
 ) {
 	const set = (await params).set
+	const id = (await params).id
 
 	await dbConnect()
 
 	try {
-		const cards = await Card.find({
-			"set": { $regex: new RegExp(set, "i") }
+		const cards = await Card.findOne({ 
+			set: { $regex: new RegExp(set, "i") },
+			order: parseInt(id)
 		})
 		return NextResponse.json(cards)
 	} catch (err: any) {
