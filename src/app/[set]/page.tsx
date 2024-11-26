@@ -1,5 +1,6 @@
-import Card from "../ui/elements/card";
-import Filter from "../ui/elements/filter";
+import { IconMenu } from "../ui/icons";
+import Card from "./_components/card";
+import SettingsBar from "./_components/settingsBar";
 
 const Page = async ({ params }: { params: Promise<{ set: string }> }) => {
   const set = (await params).set;
@@ -18,23 +19,13 @@ const Page = async ({ params }: { params: Promise<{ set: string }> }) => {
         <div className="relative mx-auto max-w-7xl p-8">
           <h1 className="text-center text-2xl font-bold">My Cards</h1>
           <div className="absolute right-0 top-0 p-8 text-3xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              className="bi bi-list"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fillRule="evenodd"
-                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
-              />
-            </svg>
+            <IconMenu />
           </div>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl p-8">
-        <Filter />
+        <SettingsBar />
 
         <div className="grid grid-cols-8 gap-2">
           {cards

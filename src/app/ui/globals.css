@@ -1,8 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
 
 /* :root {
   --background: #ffffff;
@@ -25,7 +25,8 @@ body {
   font-style: normal;
 }
 
-.bi {
+.bi,
+.icon {
   width: 1em;
   height: 1em;
 }
