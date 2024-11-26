@@ -1,5 +1,5 @@
 import dbConnect from "@/app/lib/dbConnect"
-import Set from "@/app/models/Set"
+import Card from "@/app/models/Card"
 import { NextResponse } from "next/server"
 
 export async function GET(
@@ -11,10 +11,11 @@ export async function GET(
 	await dbConnect()
 
 	try {
-		const res = await Set.findOne({
-			"id": { $regex: new RegExp(set, "i") }
-		}, '_id name id cards uniqueCards')
-		return NextResponse.json(res)
+		const cards = await Card.find({
+			"set": { $regex: new RegExp(set, "i") },
+			"show": true
+		})
+		return NextResponse.json(cards)
 	} catch (err: any) {
 		return NextResponse.json({ error: err.message })
 	}

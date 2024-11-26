@@ -1,44 +1,119 @@
 import Image from "next/image";
 
-export const packImg = (set: string, packs: string) => {
+export const energyImg = (energy: string) => {
+  switch (energy) {
+    case "Grass":
+      return (
+        <Image src="/img/energy/grass.png" alt="Grass" width="40" height="40" />
+      );
+    case "Fire":
+      return (
+        <Image src="/img/energy/fire.png" alt="Fire" width="40" height="40" />
+      );
+    case "Water":
+      return (
+        <Image src="/img/energy/water.png" alt="Water" width="40" height="40" />
+      );
+    case "Lightning":
+      return (
+        <Image
+          src="/img/energy/lightning.png"
+          alt="Lightning"
+          width="40"
+          height="40"
+        />
+      );
+    case "Psychic":
+      return (
+        <Image
+          src="/img/energy/psychic.png"
+          alt="Psychic"
+          width="40"
+          height="40"
+        />
+      );
+    case "Fighting":
+      return (
+        <Image
+          src="/img/energy/fighting.png"
+          alt="Fighting"
+          width="40"
+          height="40"
+        />
+      );
+    case "Darkness":
+      return (
+        <Image
+          src="/img/energy/darkness.png"
+          alt="Darkness"
+          width="40"
+          height="40"
+        />
+      );
+    case "Metal":
+      return (
+        <Image src="/img/energy/metal.png" alt="Metal" width="40" height="40" />
+      );
+    case "Dragon":
+      return (
+        <Image
+          src="/img/energy/dragon.png"
+          alt="Dragon"
+          width="40"
+          height="40"
+        />
+      );
+    case "Colorless":
+      return (
+        <Image
+          src="/img/energy/colorless.png"
+          alt="Colorless"
+          width="40"
+          height="40"
+        />
+      );
+  }
+};
+
+export const packImg = (set: string, packs: any) => {
   switch (set) {
     case "A1":
       if (packs.length > 1) {
         return (
           <Image
-            src="/img/sets/a1.png"
+            src="/img/sets/a1-logo.png"
             alt="Genetic Apex"
             width="291"
             height="133"
           />
         );
       } else {
-        switch (packs[0]) {
-          case "Charizard": {
+        switch (packs[0].id) {
+          case 1: {
             return (
               <Image
-                src="/img/sets/a1-charizard.png"
-                alt={`Genetic Apex - ${packs[0]}`}
+                src="/img/sets/a1-1-logo.png"
+                alt={`Genetic Apex - ${packs[0].name}`}
                 width="294"
                 height="209"
               />
             );
           }
-          case "Mewtwo": {
+          case 2: {
             return (
               <Image
-                src="/img/sets/a1-mewtwo.png"
-                alt={`Genetic Apex - ${packs[0]}`}
+                src="/img/sets/a1-2-logo.png"
+                alt={`Genetic Apex - ${packs[0].name}`}
                 width="294"
                 height="209"
               />
             );
           }
-          case "Pikachu": {
+          case 3: {
             return (
               <Image
-                src="/img/sets/a1-pikachu.png"
-                alt={`Genetic Apex - ${packs[0]}`}
+                src="/img/sets/a1-3-logo.png"
+                alt={`Genetic Apex - ${packs[0].name}`}
                 width="294"
                 height="209"
               />
@@ -48,7 +123,12 @@ export const packImg = (set: string, packs: string) => {
       }
     case "PA": {
       return (
-        <Image src="/img/sets/pa.png" alt="Promo" width="473" height="254" />
+        <Image
+          src="/img/sets/pa-logo.png"
+          alt="Promo"
+          width="473"
+          height="254"
+        />
       );
     }
   }
@@ -176,81 +256,6 @@ export const rarity = (rarity: number) => {
             height="20"
           />
         </>
-      );
-  }
-};
-
-export const energyImg = (energy: string) => {
-  switch (energy) {
-    case "Grass":
-      return (
-        <Image src="/img/energy/grass.png" alt="Grass" width="40" height="40" />
-      );
-    case "Fire":
-      return (
-        <Image src="/img/energy/fire.png" alt="Fire" width="40" height="40" />
-      );
-    case "Water":
-      return (
-        <Image src="/img/energy/water.png" alt="Water" width="40" height="40" />
-      );
-    case "Lightning":
-      return (
-        <Image
-          src="/img/energy/lightning.png"
-          alt="Lightning"
-          width="40"
-          height="40"
-        />
-      );
-    case "Psychic":
-      return (
-        <Image
-          src="/img/energy/psychic.png"
-          alt="Psychic"
-          width="40"
-          height="40"
-        />
-      );
-    case "Fighting":
-      return (
-        <Image
-          src="/img/energy/fighting.png"
-          alt="Fighting"
-          width="40"
-          height="40"
-        />
-      );
-    case "Darkness":
-      return (
-        <Image
-          src="/img/energy/darkness.png"
-          alt="Darkness"
-          width="40"
-          height="40"
-        />
-      );
-    case "Metal":
-      return (
-        <Image src="/img/energy/metal.png" alt="Metal" width="40" height="40" />
-      );
-    case "Dragon":
-      return (
-        <Image
-          src="/img/energy/dragon.png"
-          alt="Dragon"
-          width="40"
-          height="40"
-        />
-      );
-    case "Colorless":
-      return (
-        <Image
-          src="/img/energy/colorless.png"
-          alt="Colorless"
-          width="40"
-          height="40"
-        />
       );
   }
 };

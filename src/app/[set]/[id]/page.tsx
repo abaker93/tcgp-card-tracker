@@ -1,11 +1,12 @@
-import { energyImg, packImg, rarity } from "@/app/lib/utils";
+import { leadingZero } from "@/app/lib/functions";
+import { energyImg, packImg, rarity } from "@/app/lib/imgUtils";
 import { IconCard } from "@/app/ui/icons";
 import Image from "next/image";
 
 const Page = async ({
   params,
 }: {
-  params: Promise<{ set: string; id: number }>;
+  params: Promise<{ id: number; set: string }>;
 }) => {
   const set = (await params).set;
   const id = (await params).id;
@@ -13,12 +14,21 @@ const Page = async ({
   const count = 2;
 
   const fetchCard = async () => {
-    const res = await fetch(process.env.URL + "/api/" + set + "/" + id);
+    const res = await fetch(`${process.env.URL}/api/${set}/cards/${id}`);
+    const data = await res.json();
+    return data;
+  };
+
+  const fetchPack = async () => {
+    const res = await fetch(`${process.env.URL}/api/${set}`);
     const data = await res.json();
     return data;
   };
 
   const card = await fetchCard();
+  const pack = await fetchPack();
+
+  console.log(pack);
 
   const styles = {
     data: {
@@ -57,22 +67,26 @@ const Page = async ({
       <div className="mx-auto max-w-7xl p-8">
         <div className="grid grid-flow-col grid-cols-12">
           <div className="col-span-4">
-            <Image width={367} height={512} src={card.image} alt={card.name} />
+            <Image
+              width={367}
+              height={512}
+              src={card.image}
+              alt={card.name}
+              priority={true}
+            />
           </div>
           <div className="col-span-8 rounded-3xl bg-blue-50 shadow-btn">
             <div className="flex flex-col gap-8 p-8">
-              {/* name + count */}
-              <div className="relative">
+              {/* name + rarity + count */}
+              <div className="relative flex flex-col gap-2">
                 <h1 className="text-center text-3xl font-bold">{card.name}</h1>
+                <div className="flex h-5 justify-center">
+                  {rarity(card.rarity)}
+                </div>
                 <div className="absolute right-0 top-0 flex w-min items-center gap-5 rounded-full px-5 py-1 text-xl font-bold text-slate-500 shadow-inset-box">
                   <IconCard />
                   <span className="text-slate-800">{count}</span>
                 </div>
-              </div>
-
-              {/* rarity */}
-              <div className="flex h-5 justify-center">
-                {rarity(card.rarity)}
               </div>
 
               {/* pack + number */}
@@ -85,7 +99,7 @@ const Page = async ({
                     {card.set}
                   </div>
                   <p className="grow text-center font-semibold leading-none">
-                    {card.order}
+                    {leadingZero(card.order, 3)}/{pack.uniqueCards}
                   </p>
                 </div>
               </div>
@@ -104,12 +118,14 @@ const Page = async ({
                   <div className={styles.section.heading}>
                     <p>Attacks</p>
                   </div>
-                  {card.moves.map((move: any) => (
-                    <div key={move.name} className="mb-5 last:mb-0">
+                  {card.moves.map((move: any, index: any) => (
+                    <div key={index} className="mb-5 last:mb-0">
                       <div className="flex items-center gap-3">
                         <div className="flex gap-1">
-                          {move.energy.map((energy: string) => (
-                            <div className="w-5">{energyImg(energy)}</div>
+                          {move.energy.map((energy: string, index: any) => (
+                            <div key={index} className="w-5">
+                              {energyImg(energy)}
+                            </div>
                           ))}
                         </div>
                         <p className="grow text-xl font-bold">{move.name}</p>
@@ -120,6 +136,8 @@ const Page = async ({
                   ))}
                 </div>
               )}
+
+              {/* info */}
               <div className="flex flex-col gap-2">
                 {/* category + stage */}
                 <div className={styles.data.row}>

@@ -1,12 +1,13 @@
 import { IconMenu } from "../ui/icons";
 import Card from "./_components/card";
+import CardsContainer from "./_components/cardsContainer";
 import SettingsBar from "./_components/settingsBar";
 
 const Page = async ({ params }: { params: Promise<{ set: string }> }) => {
   const set = (await params).set;
 
   const fetchCards = async () => {
-    const res = await fetch(process.env.URL + "/api/" + set);
+    const res = await fetch(`${process.env.URL}/api/${set}/cards`);
     const data = await res.json();
     return data;
   };
@@ -27,16 +28,16 @@ const Page = async ({ params }: { params: Promise<{ set: string }> }) => {
       <div className="mx-auto max-w-7xl p-8">
         <SettingsBar />
 
-        <div className="grid grid-cols-8 gap-2">
-          {cards
-            .sort((a: any, b: any) => a.order - b.order)
-            .map((card: any) => (
-              <Card key={card._id} poke={card} />
-            ))}
-        </div>
+        <CardsContainer set={set} cards={cards} />
       </div>
     </main>
   );
+};
+
+const fetchCards = async (set: any) => {
+  const res = await fetch(`${process.env.URL}/api/${set}/cards/`);
+  const data = await res.json();
+  return data;
 };
 
 export default Page;
