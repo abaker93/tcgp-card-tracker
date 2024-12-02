@@ -1,17 +1,18 @@
 import { IconMinus, IconPlus } from "@/app/ui/icons";
-import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
+import { ImageWithFallback } from "@/app/lib/imgWithFallback";
 
 const Card = (props: any) => {
   return (
     <div className="group relative rounded-lg shadow-xl transition hover:z-10 hover:scale-125">
       <div className="relative rounded-lg">
         <Link href={`/${props.card.set}/${props.card.order}`}>
-          <Image
+          <ImageWithFallback
             width={367}
             height={512}
             src={props.card.image}
+            fallbackSrc="/img/card-placeholder.png"
             alt={props.card.name}
             className={clsx({ grayscale: props.count === 0 })}
           />

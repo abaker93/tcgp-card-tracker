@@ -1,7 +1,5 @@
 import { IconMenu } from "../ui/icons";
-import Card from "./_components/card";
-import CardsContainer from "./_components/cardsContainer";
-import SettingsBar from "./_components/settingsBar";
+import Container from "./_components/container";
 
 const Page = async ({ params }: { params: Promise<{ set: string }> }) => {
   const set = (await params).set;
@@ -25,19 +23,9 @@ const Page = async ({ params }: { params: Promise<{ set: string }> }) => {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl p-8">
-        <SettingsBar />
-
-        <CardsContainer set={set} cards={cards} />
-      </div>
+      <Container set={set} cards={cards} />
     </main>
   );
-};
-
-const fetchCards = async (set: any) => {
-  const res = await fetch(`${process.env.URL}/api/${set}/cards/`);
-  const data = await res.json();
-  return data;
 };
 
 export default Page;

@@ -2,6 +2,7 @@ import { leadingZero } from "@/app/lib/functions";
 import { energyImg, packImg, rarity } from "@/app/lib/imgUtils";
 import { IconCard } from "@/app/ui/icons";
 import Image from "next/image";
+import CardCount from "./_components/count";
 
 const Page = async ({
   params,
@@ -27,8 +28,6 @@ const Page = async ({
 
   const card = await fetchCard();
   const pack = await fetchPack();
-
-  console.log(pack);
 
   const styles = {
     data: {
@@ -83,10 +82,11 @@ const Page = async ({
                 <div className="flex h-5 justify-center">
                   {rarity(card.rarity)}
                 </div>
-                <div className="absolute right-0 top-0 flex w-min items-center gap-5 rounded-full px-5 py-1 text-xl font-bold text-slate-500 shadow-inset-box">
+                <CardCount card={card} />
+                {/* <div className="absolute right-0 top-0 flex w-min items-center gap-5 rounded-full px-5 py-1 text-xl font-bold text-slate-500 shadow-inset-box">
                   <IconCard />
                   <span className="text-slate-800">{count}</span>
-                </div>
+                </div> */}
               </div>
 
               {/* pack + number */}
