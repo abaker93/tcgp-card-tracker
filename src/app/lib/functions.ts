@@ -30,6 +30,16 @@ export const getUserData = (set: string = "PA") => {
   return data;
 }
 
+export const resetSaveReminder = () => {
+  const date = new Date();
+  // console.log(date)
+  localStorage.setItem("lastSaveDate", new Date().toString())
+}
+
+export const saveToLocalStorage = (data: any) => {
+  localStorage.setItem("userData", data.toString());
+}
+
 export const leadingZero = (num: number, len: number) => {
   return num.toString().padStart(len, "0");
 };

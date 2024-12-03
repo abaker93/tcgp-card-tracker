@@ -5,7 +5,12 @@ import { useEffect, useState } from "react";
 import { packImg } from "../lib/imgUtils";
 import Link from "next/link";
 import clsx from "clsx";
-import { copyToClipboard, getUserData } from "@/app/lib/functions";
+import {
+  copyToClipboard,
+  getUserData,
+  resetSaveReminder,
+  saveToLocalStorage,
+} from "@/app/lib/functions";
 
 const MenuDrawer = () => {
   const [open, setOpen] = useState(false);
@@ -128,10 +133,30 @@ const Drawer = (props) => {
 
 const StorageModal = (props) => {
   const [userData, setUserData] = useState({});
+  const [textareaValue, setTextareaValue] = useState("");
+  const [error, setError] = useState(false);
+  const [copyBtnText, setCopyBtnText] = useState("Copy to clipboard");
 
   useEffect(() => {
-    setUserData(JSON.stringify(getUserData()));
+    const data = JSON.stringify(getUserData());
+    setTextareaValue(data);
   }, []);
+
+  useEffect(() => {
+    try {
+      JSON.parse(textareaValue);
+      setError(false);
+    } catch (e) {
+      setError(true);
+      // console.log(e);
+    }
+  }, [textareaValue]);
+
+  useEffect(() => {
+    if (copyBtnText !== "Copy to clipboard") {
+      setTimeout(() => setCopyBtnText("Copy to clipboard"), [4000]);
+    }
+  }, [copyBtnText]);
 
   return (
     <div
@@ -175,21 +200,66 @@ const StorageModal = (props) => {
           saved on your device as a backup.
         </p>
         <p className="mb-5">Copy it and keep it somewhere safe!</p>
+
         <textarea
           type="text"
           rows="5"
-          readOnly
-          value={userData.toString()}
+          value={!textareaValue ? "Loading..." : textareaValue.toString()}
+          onChange={(e) => setTextareaValue(e.target.value)}
           className="mb-5 w-full break-all rounded-3xl border-0 bg-blue-50 px-4 py-2 text-slate-700 shadow-inset-box focus:outline-0 focus:ring-0"
         />
-        <button
-          className="flex items-center gap-3 rounded-full px-4 py-2 text-xl transition hover:bg-gradient-to-r hover:from-indigo-100/30 hover:to-blue-100/40 hover:shadow-inset-box"
-          onClick={() => copyToClipboard(userData.toString())}
-          type="button"
-        >
-          <IconClipboard />
-          <span className="text-base">Copy to Clipboard</span>
-        </button>
+        <div className={clsx("mb-5", { hidden: !error })}>
+          <div className="w-full rounded-lg bg-red-200/40 px-4 py-2 text-red-500">
+            <p className="font-bold">Something's up with your JSON above.</p>
+            <p className="text-sm">
+              Check the error message below or try pasting again. This message
+              will go away when everything's corrected.
+            </p>
+          </div>
+        </div>
+        <div className="flex justify-between">
+          <button
+            className={clsx(
+              "flex items-center gap-3 rounded-full px-4 py-2 text-xl",
+              {
+                "pointer-events-none opacity-50": !textareaValue || error,
+                "pointer-events-auto opacity-100 hover:bg-gradient-to-r hover:from-indigo-100/30 hover:to-blue-100/40 hover:shadow-inset-box":
+                  textareaValue && !error,
+              },
+            )}
+            disabled={!textareaValue}
+            onClick={() => {
+              resetSaveReminder();
+              copyToClipboard(textareaValue.toString());
+              setCopyBtnText("Copied!");
+            }}
+            type="button"
+          >
+            <IconClipboard />
+            <span className="text-base">{copyBtnText}</span>
+          </button>
+          <button
+            className={clsx(
+              "btn-gradient flex items-center gap-3 rounded-full px-8 py-2 text-xl transition",
+              {
+                "pointer-events-none opacity-50": !textareaValue || error,
+                "pointer-events-auto opacity-100 hover:scale-90":
+                  textareaValue && !error,
+              },
+            )}
+            disabled={!textareaValue || error}
+            onClick={() => {
+              props.onClose();
+              resetSaveReminder();
+              setUserData(textareaValue);
+              saveToLocalStorage(textareaValue);
+            }}
+            type="button"
+          >
+            <IconSave />
+            <span className="text-base">Save</span>
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -4,29 +4,63 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --background: #ffffff;
-  --foreground: var(--);
-} */
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #190055;
-    --foreground: #ededed;
-  }
-} */
-
 body {
-  /* color: var(--foreground);
-  background: var(--background); */
   font-family: "Figtree", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
 
-.bi,
 .icon {
   width: 1em;
   height: 1em;
+}
+
+@layer components {
+  .btn-gradient,
+  .btn-gradient::after {
+    background: linear-gradient(
+      90deg,
+      theme("colors.green.400") 20%,
+      theme("colors.teal.400"),
+      theme("colors.sky.400"),
+      theme("colors.indigo.400"),
+      theme("colors.indigo.400"),
+      theme("colors.sky.400"),
+      theme("colors.teal.400"),
+      theme("colors.green.400") 80%
+    );
+    background-size: 1000%;
+    animation: gradient-btn 8s linear infinite;
+    color: theme("colors.white");
+  }
+
+  .btn-gradient {
+    position: relative;
+    box-shadow:
+      rgba(255, 255, 255, 1) 1px 1px 2px -1px inset,
+      rgba(30, 58, 138, 0.5) -1px -1px 1px -1px inset;
+  }
+
+  .btn-gradient::after {
+    content: "";
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    top: 25%;
+    left: 15%;
+    border-radius: inherit;
+    z-index: -1;
+    filter: blur(0.3em);
+    opacity: 0.5;
+  }
+
+  @keyframes gradient-btn {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
 }
