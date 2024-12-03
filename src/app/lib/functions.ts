@@ -1,4 +1,4 @@
-export const getUserData = (set: string) => {
+export const getUserData = (set: string = "PA") => {
   let ls: any = localStorage.getItem("userData");
   let data = JSON.parse(ls);
 

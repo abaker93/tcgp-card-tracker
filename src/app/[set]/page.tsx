@@ -1,5 +1,6 @@
 import { IconMenu } from "../ui/icons";
 import Container from "./_components/container";
+import Header from "./_components/header";
 
 const Page = async ({ params }: { params: Promise<{ set: string }> }) => {
   const set = (await params).set;
@@ -12,7 +13,12 @@ const Page = async ({ params }: { params: Promise<{ set: string }> }) => {
 
   const cards = await fetchCards();
 
-  return <Container set={set} cards={cards} />;
+  return (
+    <>
+      <Header />
+      <Container set={set} cards={cards} />
+    </>
+  );
 };
 
 export default Page;

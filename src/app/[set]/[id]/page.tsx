@@ -3,6 +3,7 @@ import { energyImg, packImg, rarity } from "@/app/lib/imgUtils";
 import { IconCard } from "@/app/ui/icons";
 import Image from "next/image";
 import CardCount from "./_components/count";
+import Header from "./_components/header";
 
 const Page = async ({
   params,
@@ -44,6 +45,7 @@ const Page = async ({
 
   return (
     <>
+      <Header set={card.set} />
       <div className="mx-auto max-w-7xl p-8">
         <div className="grid grid-flow-col grid-cols-12">
           <div className="col-span-4">
