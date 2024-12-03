@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { packImg } from "../lib/imgUtils";
 import Link from "next/link";
 import clsx from "clsx";
-import { getUserData } from "@/app/lib/functions";
+import { copyToClipboard, getUserData } from "@/app/lib/functions";
 
 const MenuDrawer = () => {
   const [open, setOpen] = useState(false);

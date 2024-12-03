@@ -1,3 +1,9 @@
+export const copyToClipboard = (text: string) => {
+  navigator.clipboard.writeText(text)
+
+  console.log('Copied to clipboard:', text);
+}
+
 export const getUserData = (set: string = "PA") => {
   let ls: any = localStorage.getItem("userData");
   let data = JSON.parse(ls);
