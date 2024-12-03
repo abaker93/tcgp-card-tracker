@@ -78,7 +78,7 @@ export const energyImg = (energy: string) => {
 export const packImg = (set: string, packs: any) => {
   switch (set) {
     case "A1":
-      if (packs.length > 1) {
+      if (!packs) {
         return (
           <Image
             src="/img/sets/a1-logo.png"
@@ -88,36 +88,47 @@ export const packImg = (set: string, packs: any) => {
           />
         );
       } else {
-        switch (packs[0].id) {
-          case 1: {
-            return (
-              <Image
-                src="/img/sets/a1-1-logo.png"
-                alt={`Genetic Apex - ${packs[0].name}`}
-                width="294"
-                height="209"
-              />
-            );
-          }
-          case 2: {
-            return (
-              <Image
-                src="/img/sets/a1-2-logo.png"
-                alt={`Genetic Apex - ${packs[0].name}`}
-                width="294"
-                height="209"
-              />
-            );
-          }
-          case 3: {
-            return (
-              <Image
-                src="/img/sets/a1-3-logo.png"
-                alt={`Genetic Apex - ${packs[0].name}`}
-                width="294"
-                height="209"
-              />
-            );
+        if (packs.length > 1) {
+          return (
+            <Image
+              src="/img/sets/a1-logo.png"
+              alt="Genetic Apex"
+              width="291"
+              height="133"
+            />
+          );
+        } else {
+          switch (packs[0].id) {
+            case 1: {
+              return (
+                <Image
+                  src="/img/sets/a1-1-logo.png"
+                  alt={`Genetic Apex - ${packs[0].name}`}
+                  width="294"
+                  height="209"
+                />
+              );
+            }
+            case 2: {
+              return (
+                <Image
+                  src="/img/sets/a1-2-logo.png"
+                  alt={`Genetic Apex - ${packs[0].name}`}
+                  width="294"
+                  height="209"
+                />
+              );
+            }
+            case 3: {
+              return (
+                <Image
+                  src="/img/sets/a1-3-logo.png"
+                  alt={`Genetic Apex - ${packs[0].name}`}
+                  width="294"
+                  height="209"
+                />
+              );
+            }
           }
         }
       }
