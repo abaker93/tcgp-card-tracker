@@ -2,7 +2,7 @@
 
 import { IconClipboard, IconMenu, IconSave, IconXLarge } from "@/app/ui/icons";
 import { useEffect, useState } from "react";
-import { packImg } from "../lib/imgUtils";
+import { packImg } from "@/app/lib/imgUtils";
 import Link from "next/link";
 import clsx from "clsx";
 import {

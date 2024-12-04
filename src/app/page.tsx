@@ -1,15 +1,28 @@
-const Page = async ({ params }: { params: Promise<{ set: string }> }) => {
-  const set = (await params).set;
+'use client';
 
-  const fetchCards = async () => {
-    const res = await fetch(`${process.env.URL}/api/${set}/cards`);
-    const data = await res.json();
-    return data;
-  };
+import Header from '@/app/_components/header';
+import { useEffect, useState } from 'react';
+import { getUserData } from './lib/functions';
+import Alerts from './_components/alerts';
 
-  const cards = await fetchCards();
+const Page = () => {
+  const [userData, setUserData] = useState({});
+  const [lastSaveDate, setLastSaveDate] = useState('');
 
-  return <>hi</>;
+  useEffect(() => {
+    const data = JSON.stringify(getUserData());
+    setUserData(data);
+
+    const date = localStorage.getItem('lastSaveDate');
+    setLastSaveDate(date || '');
+  }, []);
+
+  return (
+    <>
+      <Alerts date={lastSaveDate} />
+      <Header userData={userData} />
+    </>
+  );
 };
 
 export default Page;
