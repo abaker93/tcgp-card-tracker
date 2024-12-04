@@ -20,7 +20,15 @@ const Page = () => {
   return (
     <>
       <Alerts date={lastSaveDate} />
-      <Header userData={userData} />
+      <Header
+        userData={userData}
+        setLastSaveDate={(e: any) => {
+          setLastSaveDate(e);
+        }}
+        setUserData={(e: any) => {
+          setUserData(e);
+        }}
+      />
     </>
   );
 };

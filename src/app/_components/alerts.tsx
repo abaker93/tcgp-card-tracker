@@ -11,7 +11,7 @@ const Alerts = (props: any) => {
   useEffect(() => {
     week.setTime(week.getTime() - offset);
 
-    if (isNaN(save.getDate()) || save < week) {
+    if (save < week) {
       setShowAlert(true);
     } else {
       setShowAlert(false);

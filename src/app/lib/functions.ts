@@ -1,17 +1,17 @@
 export const copyToClipboard = (text: string) => {
-  navigator.clipboard.writeText(text)
+  navigator.clipboard.writeText(text);
 
   console.log('Copied to clipboard:', text);
-}
+};
 
-export const getUserData = (set: string = "PA") => {
-  let ls: any = localStorage.getItem("userData");
+export const getUserData = (set: string = 'PA') => {
+  let ls: any = localStorage.getItem('userData');
   let data = JSON.parse(ls);
 
   if (!data) {
     data = {
       [set]: {
-        "1": 0,
+        '1': 0,
       },
     };
   } else {
@@ -19,7 +19,7 @@ export const getUserData = (set: string = "PA") => {
       data = {
         ...data,
         [set]: {
-          "1": 0,
+          '1': 0,
         },
       };
     } else {
@@ -28,18 +28,16 @@ export const getUserData = (set: string = "PA") => {
   }
 
   return data;
-}
+};
 
 export const resetSaveReminder = () => {
-  const date = new Date();
-  // console.log(date)
-  localStorage.setItem("lastSaveDate", new Date().toString())
-}
+  saveToLocalStorage('lastSaveDate', new Date().toString());
+};
 
-export const saveToLocalStorage = (data: any) => {
-  localStorage.setItem("userData", data.toString());
-}
+export const saveToLocalStorage = (key: string, data: any) => {
+  localStorage.setItem(key, data.toString());
+};
 
 export const leadingZero = (num: number, len: number) => {
-  return num.toString().padStart(len, "0");
+  return num.toString().padStart(len, '0');
 };
