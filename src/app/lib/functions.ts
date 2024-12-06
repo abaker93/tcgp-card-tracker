@@ -1,29 +1,44 @@
 export const copyToClipboard = (text: string) => {
   navigator.clipboard.writeText(text);
 
-  console.log('Copied to clipboard:', text);
+  // console.log('Copied to clipboard:', text);
 };
 
-export const getUserData = (set: string = 'PA') => {
-  let ls: any = localStorage.getItem('userData');
-  let data = JSON.parse(ls);
+export const getUserData = (setArr: any[]) => {
+  const ls: any = localStorage.getItem('userData');
+  let data: any = JSON.parse(ls);
 
-  if (!data) {
-    data = {
-      [set]: {
-        '1': 0,
-      },
-    };
-  } else {
-    if (!data[set]) {
-      data = {
-        ...data,
-        [set]: {
-          '1': 0,
-        },
-      };
+  const sets = setArr.map((s) => {
+    if (Object.keys(s).length > 0) {
+      return s.id;
     } else {
-      data = data;
+      return s;
+    }
+  });
+
+  if (sets.length > 0) {
+    if (!data) {
+      sets.map((s: string) => {
+        data = {
+          ...data,
+          [s]: {
+            '1': 0,
+          },
+        };
+      });
+    } else {
+      sets.map((s: string) => {
+        if (!data[s]) {
+          data = {
+            ...data,
+            [s]: {
+              '1': 0,
+            },
+          };
+        } else {
+          data = data;
+        }
+      });
     }
   }
 

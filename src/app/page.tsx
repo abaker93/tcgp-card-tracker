@@ -10,6 +10,7 @@ import CardContainer from './_components/_cards/container';
 import MainContainer from './_components/_ui/main';
 import SettingsBar from './_components/_cards/settingsBar';
 import Card from './_components/_cards/card';
+import SetHeader from './_components/_cards/setHeader';
 
 const Page = () => {
   const [loading, setLoading] = useState(true);
@@ -35,12 +36,15 @@ const Page = () => {
       setCards(data);
     };
 
-    setUserData(getUserData());
     setLastSaveDate(localStorage.getItem('lastSaveDate') || '');
     fetchCardSets();
     fetchCards();
-    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    setUserData(getUserData(cardSets));
+    setLoading(false);
+  }, [cardSets]);
 
   useEffect(() => {
     setShowSaveAlert(saveAlertTimeout(lastSaveDate));
@@ -111,7 +115,7 @@ const Page = () => {
         <SettingsBar count={count} />
         {cardSets.map((set: any) => (
           <div key={set._id}>
-            <p>{set.name}</p>
+            <SetHeader set={set} />
             <CardContainer>
               {cards
                 .filter((card: any) => card.set === set.id)
