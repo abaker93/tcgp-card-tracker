@@ -2,12 +2,10 @@ import clsx from 'clsx';
 import Backdrop from '../_ui/backdrop';
 
 const MenuDrawer = ({
-  userData,
   toggleMenuDrawer,
   openMenuDrawer,
   children,
 }: {
-  userData: any;
   toggleMenuDrawer: any;
   openMenuDrawer: boolean;
   children: React.ReactNode;

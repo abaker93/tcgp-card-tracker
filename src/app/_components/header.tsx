@@ -30,7 +30,7 @@ const Header = (props: any) => {
   const [copyBtnText, setCopyBtnText] = useState('Copy to clipboard');
 
   useEffect(() => {
-    setTextAreaValue(props.userData);
+    setTextAreaValue(JSON.stringify(props.userData));
   }, [props.userData]);
 
   useEffect(() => {
@@ -70,7 +70,6 @@ const Header = (props: any) => {
           <MenuDrawer
             toggleMenuDrawer={() => toggleMenuDrawer()}
             openMenuDrawer={openMenuDrawer}
-            userData={props.userData}
           >
             <div className="flex w-full flex-col gap-3">
               <SetLink set="A1" href="A1" name="Genetic Apex" />
@@ -139,7 +138,7 @@ const Header = (props: any) => {
               </LinkButton>
               <GradientButton
                 onClick={() => {
-                  props.setUserData(textAreaValue);
+                  props.setUserData(JSON.parse(textAreaValue));
                   props.setLastSaveDate(new Date().toString());
                   saveToLocalStorage('lastSaveDate', new Date().toString());
                   saveToLocalStorage('userData', textAreaValue);
