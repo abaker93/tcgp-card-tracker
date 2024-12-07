@@ -11,6 +11,7 @@ import MainContainer from './_components/_ui/main';
 import SettingsBar from './_components/_cards/settingsBar';
 import Card from './_components/_cards/card';
 import SetHeader from './_components/_cards/setHeader';
+import Graph from './_components/_stats/graph';
 
 const Page = () => {
   const [loading, setLoading] = useState(true);
@@ -18,6 +19,7 @@ const Page = () => {
   const [lastSaveDate, setLastSaveDate] = useState('');
 
   const [cardSets, setCardSets] = useState([]);
+  const [cardPacks, setCardPacks] = useState([]);
   const [cards, setCards] = useState([]);
 
   const [showSaveAlert, setShowSaveAlert] = useState(false);
@@ -30,6 +32,12 @@ const Page = () => {
       setCardSets(data);
     };
 
+    const fetchCardPacks = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/packs`);
+      const data = await res.json();
+      setCardPacks(data);
+    };
+
     const fetchCards = async () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cards`);
       const data = await res.json();
@@ -38,6 +46,7 @@ const Page = () => {
 
     setLastSaveDate(localStorage.getItem('lastSaveDate') || '');
     fetchCardSets();
+    fetchCardPacks();
     fetchCards();
   }, []);
 
@@ -113,6 +122,14 @@ const Page = () => {
       />
       <MainContainer>
         <SettingsBar count={count} />
+
+        <Graph
+          userData={userData}
+          cards={cards}
+          cardSets={cardSets}
+          cardPacks={cardPacks}
+        />
+
         {cardSets.map((set: any) => (
           <div key={set._id}>
             <SetHeader set={set} />
