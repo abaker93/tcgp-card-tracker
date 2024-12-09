@@ -19,7 +19,9 @@ export default function RootLayout({
           content="telephone=no, date=no, email=no, address=no"
         />
       </head>
-      <body>{children}</body>
+      <body className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-100 via-85% to-blue-200 bg-fixed">
+        {children}
+      </body>
     </html>
   );
 }

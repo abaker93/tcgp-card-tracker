@@ -1,11 +1,12 @@
-import { IconMinus, IconPlus } from "@/app/ui/icons";
-import Link from "next/link";
-import clsx from "clsx";
-import { ImageWithFallback } from "@/app/lib/imgWithFallback";
+import { IconMinus, IconPlus } from '@/app/ui/icons';
+import Link from 'next/link';
+import clsx from 'clsx';
+import { ImageWithFallback } from '@/app/lib/imgWithFallback';
+import IconButton from '../_ui/_buttons/icon';
 
 const Card = (props: any) => {
   return (
-    <div className="group relative rounded-lg shadow-xl transition hover:z-10 hover:scale-125">
+    <div className="group relative rounded-lg shadow-xl transition hover:z-10 hover:scale-110">
       <div className="relative rounded-lg">
         <Link href={`/${props.card.set}/${props.card.order}`}>
           <ImageWithFallback
@@ -14,7 +15,7 @@ const Card = (props: any) => {
             src={props.card.image}
             fallbackSrc="/img/card-placeholder.png"
             alt={props.card.name}
-            className={clsx({ grayscale: props.count === 0 })}
+            className={clsx({ grayscale: props.count < 1 })}
           />
         </Link>
 
@@ -22,18 +23,19 @@ const Card = (props: any) => {
           {props.count}
         </div>
         <div className="absolute bottom-0 right-0 flex p-0.5">
-          <button
-            className="mr-0.5 rounded-full bg-indigo-50 p-0.5 text-3xl shadow-btn transition hover:bg-green-500 hover:text-white"
+          <IconButton
             onClick={props.onAdd}
+            className="hover:!bg-green-500 hover:text-white"
           >
             <IconPlus />
-          </button>
-          <button
-            className="rounded-full bg-indigo-50 p-0.5 text-3xl shadow-btn transition hover:bg-red-500 hover:text-white"
+          </IconButton>
+
+          <IconButton
             onClick={props.onSubtract}
+            className="hover:!bg-red-500 hover:text-white"
           >
             <IconMinus />
-          </button>
+          </IconButton>
         </div>
       </div>
     </div>

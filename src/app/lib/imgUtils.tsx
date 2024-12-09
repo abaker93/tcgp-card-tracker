@@ -1,20 +1,20 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 export const energyImg = (energy: string) => {
   switch (energy) {
-    case "Grass":
+    case 'Grass':
       return (
         <Image src="/img/energy/grass.png" alt="Grass" width="40" height="40" />
       );
-    case "Fire":
+    case 'Fire':
       return (
         <Image src="/img/energy/fire.png" alt="Fire" width="40" height="40" />
       );
-    case "Water":
+    case 'Water':
       return (
         <Image src="/img/energy/water.png" alt="Water" width="40" height="40" />
       );
-    case "Lightning":
+    case 'Lightning':
       return (
         <Image
           src="/img/energy/lightning.png"
@@ -23,7 +23,7 @@ export const energyImg = (energy: string) => {
           height="40"
         />
       );
-    case "Psychic":
+    case 'Psychic':
       return (
         <Image
           src="/img/energy/psychic.png"
@@ -32,7 +32,7 @@ export const energyImg = (energy: string) => {
           height="40"
         />
       );
-    case "Fighting":
+    case 'Fighting':
       return (
         <Image
           src="/img/energy/fighting.png"
@@ -41,7 +41,7 @@ export const energyImg = (energy: string) => {
           height="40"
         />
       );
-    case "Darkness":
+    case 'Darkness':
       return (
         <Image
           src="/img/energy/darkness.png"
@@ -50,11 +50,11 @@ export const energyImg = (energy: string) => {
           height="40"
         />
       );
-    case "Metal":
+    case 'Metal':
       return (
         <Image src="/img/energy/metal.png" alt="Metal" width="40" height="40" />
       );
-    case "Dragon":
+    case 'Dragon':
       return (
         <Image
           src="/img/energy/dragon.png"
@@ -63,7 +63,7 @@ export const energyImg = (energy: string) => {
           height="40"
         />
       );
-    case "Colorless":
+    case 'Colorless':
       return (
         <Image
           src="/img/energy/colorless.png"
@@ -75,9 +75,9 @@ export const energyImg = (energy: string) => {
   }
 };
 
-export const packImg = (set: string, packs: any) => {
+export const packImg = (set: string, packs: any[]) => {
   switch (set) {
-    case "A1":
+    case 'A1':
       if (!packs) {
         return (
           <Image
@@ -99,7 +99,8 @@ export const packImg = (set: string, packs: any) => {
           );
         } else {
           switch (packs[0].id) {
-            case 1: {
+            case 1:
+            case 'Charizard': {
               return (
                 <Image
                   src="/img/sets/a1-1-logo.png"
@@ -109,7 +110,8 @@ export const packImg = (set: string, packs: any) => {
                 />
               );
             }
-            case 2: {
+            case 2:
+            case 'Mewtwo': {
               return (
                 <Image
                   src="/img/sets/a1-2-logo.png"
@@ -119,7 +121,8 @@ export const packImg = (set: string, packs: any) => {
                 />
               );
             }
-            case 3: {
+            case 3:
+            case 'Pikachu': {
               return (
                 <Image
                   src="/img/sets/a1-3-logo.png"
@@ -132,15 +135,49 @@ export const packImg = (set: string, packs: any) => {
           }
         }
       }
-    case "PA": {
-      return (
-        <Image
-          src="/img/sets/pa-logo.png"
-          alt="Promo"
-          width="473"
-          height="254"
-        />
-      );
+    case 'PA': {
+      if (!packs) {
+        return (
+          <Image
+            src="/img/sets/pa-logo.png"
+            alt="Promo"
+            width="473"
+            height="254"
+          />
+        );
+      } else {
+        if (packs.length > 1) {
+          <Image
+            src="/img/sets/pa-logo.png"
+            alt="Promo"
+            width="473"
+            height="254"
+          />;
+        } else {
+          switch (packs[0].id) {
+            case 1:
+            case 'Vol 1':
+              return (
+                <Image
+                  src="/img/sets/pa-v1-logo.png"
+                  alt="Promo Vol 1"
+                  width="340"
+                  height="205"
+                />
+              );
+            case 2:
+            case 'Vol 2':
+              return (
+                <Image
+                  src="/img/sets/pa-v2-logo.png"
+                  alt="Promo Vol 2"
+                  width="340"
+                  height="205"
+                />
+              );
+          }
+        }
+      }
     }
   }
 };

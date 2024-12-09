@@ -4,8 +4,8 @@ interface DirProps {
 
 export const IconArrow = ({ dir }: DirProps) => {
   switch (dir) {
-    case "up":
-      console.log("up");
+    case 'up':
+      console.log('up');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -19,8 +19,8 @@ export const IconArrow = ({ dir }: DirProps) => {
           />
         </svg>
       );
-    case "down":
-      console.log("down");
+    case 'down':
+      console.log('down');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -34,8 +34,8 @@ export const IconArrow = ({ dir }: DirProps) => {
           />
         </svg>
       );
-    case "left":
-      console.log("left");
+    case 'left':
+      console.log('left');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -49,8 +49,8 @@ export const IconArrow = ({ dir }: DirProps) => {
           />
         </svg>
       );
-    case "right":
-      console.log("right");
+    case 'right':
+      console.log('right');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -65,6 +65,19 @@ export const IconArrow = ({ dir }: DirProps) => {
         </svg>
       );
   }
+};
+
+export const IconBarChart = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+      className="icon"
+      fill="currentColor"
+    >
+      <path d="M4 11H2v3h2zm5-4H7v7h2zm5-5v12h-2V2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1z" />
+    </svg>
+  );
 };
 
 export const IconCard = () => {
@@ -97,6 +110,33 @@ export const IconClipboard = () => {
     >
       <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z" />
       <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
+    </svg>
+  );
+};
+
+export const IconEmojiFrown = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+      className="icon"
+      fill="currentColor"
+    >
+      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+      <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.5 3.5 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.5 4.5 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683M7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5m4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5" />
+    </svg>
+  );
+};
+
+export const IconHouse = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      className="icon"
+      viewBox="0 0 16 16"
+    >
+      <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z" />
     </svg>
   );
 };

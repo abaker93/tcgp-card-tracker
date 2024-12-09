@@ -1,101 +1,193 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
-  return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-8 sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+import { useEffect, useState } from 'react';
+
+import Alerts from './_components/alerts';
+import Header from '@/app/_components/header';
+
+import { getUserData, saveToLocalStorage } from './lib/functions';
+import CardContainer from './_components/_cards/container';
+import MainContainer from './_components/_ui/main';
+import SettingsBar from './_components/_cards/settingsBar';
+import Card from './_components/_cards/card';
+import SetHeader from './_components/_cards/setHeader';
+import Stats from './_components/_stats/stats';
+import clsx from 'clsx';
+
+const Page = () => {
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState({});
+  const [lastSaveDate, setLastSaveDate] = useState('');
+
+  const [cardSets, setCardSets] = useState([]);
+  const [cardPacks, setCardPacks] = useState([]);
+  const [cardRarity, setCardRarity] = useState([]);
+  const [cards, setCards] = useState([]);
+
+  const [showSaveAlert, setShowSaveAlert] = useState(false);
+  const [showStats, setShowStats] = useState(false);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const fetchCardSets = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/sets`);
+      const data = await res.json();
+      setCardSets(data);
+    };
+
+    const fetchCardPacks = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/packs`);
+      const data = await res.json();
+      setCardPacks(data);
+    };
+
+    const fetchCardRarity = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/rarity`);
+      const data = await res.json();
+      setCardRarity(data);
+    };
+
+    const fetchCards = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cards`);
+      const data = await res.json();
+      setCards(data);
+    };
+
+    setLastSaveDate(localStorage.getItem('lastSaveDate') || '');
+    fetchCardSets();
+    fetchCardPacks();
+    fetchCardRarity();
+    fetchCards();
+  }, []);
+
+  useEffect(() => {
+    setUserData(getUserData(cardSets));
+    setLoading(false);
+  }, [cardSets]);
+
+  useEffect(() => {
+    setShowSaveAlert(saveAlertTimeout(lastSaveDate));
+  }, [lastSaveDate]);
+
+  useEffect(() => {
+    const tempCount = () => {
+      return Object.keys(userData).reduce((prev, key) => {
+        const setSum = Object.keys(userData[key]).reduce((prev2, key2) => {
+          return prev2 + userData[key][key2];
+        }, 0);
+        return prev + setSum;
+      }, 0);
+    };
+
+    setCount(tempCount());
+    if (Object.keys(userData).length > 0) {
+      saveToLocalStorage('userData', JSON.stringify(userData));
+    }
+  }, [userData]);
+
+  const onAdd = (c: any) => {
+    let newCount = userData[c.set][c.order];
+
+    newCount = newCount ? newCount + 1 : 1;
+
+    const data = {
+      ...userData,
+      [c.set]: {
+        ...userData[c.set],
+        [c.order]: newCount,
+      },
+    };
+
+    setUserData(data);
+  };
+
+  const onSubtract = (c: any) => {
+    let newCount = userData[c.set][c.order];
+
+    newCount = newCount && newCount > 0 ? newCount - 1 : 0;
+
+    const data = {
+      ...userData,
+      [c.set]: {
+        ...userData[c.set],
+        [c.order]: newCount,
+      },
+    };
+
+    setUserData(data);
+  };
+
+  const toggleStats = () => {
+    showStats ? setShowStats(false) : setShowStats(true);
+  };
+
+  return loading ? (
+    <div>Loading...</div>
+  ) : (
+    <>
+      <Alerts show={showSaveAlert}>
+        <p className="font-bold">
+          Your data has not been saved in the last 7 days.
+        </p>
+        <p>Don't forget to backup your data!</p>
+      </Alerts>
+      <Header
+        userData={userData}
+        setLastSaveDate={(e: any) => setLastSaveDate(e)}
+        setUserData={(e: any) => setUserData(e)}
+      />
+      <MainContainer>
+        <SettingsBar
+          count={count}
+          showStats={showStats}
+          toggleStats={() => toggleStats()}
         />
-        <ol className="list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm sm:text-left">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-semibold dark:bg-white/[.06]">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="bg-foreground text-background flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm transition-colors hover:bg-[#383838] sm:h-12 sm:px-5 sm:text-base dark:hover:bg-[#ccc]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:min-w-44 sm:px-5 sm:text-base dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <div className={clsx({ hidden: !showStats })}>
+          <Stats
+            userData={userData}
+            cards={cards}
+            cardSets={cardSets}
+            cardPacks={cardPacks}
+            cardRarity={cardRarity}
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {cardSets.map((set: any) => (
+          <div key={set._id}>
+            <SetHeader set={set} />
+            <CardContainer>
+              {cards
+                .filter((card: any) => card.set === set.id)
+                .filter((card: any) => card.show)
+                .sort((a: any, b: any) => a.order - b.order)
+                .map((card: any) => (
+                  <Card
+                    key={card._id}
+                    card={card}
+                    count={userData[card.set][card.order] || 0}
+                    onAdd={() => onAdd(card)}
+                    onSubtract={() => onSubtract(card)}
+                  />
+                ))}
+            </CardContainer>
+          </div>
+        ))}
+      </MainContainer>
+    </>
   );
-}
+};
+
+const saveAlertTimeout = (save: any) => {
+  const offset = 7 * (24 * 60 * 60 * 1000);
+  const timeout = new Date(save);
+  const today = new Date();
+  timeout.setTime(timeout.getTime() + offset);
+
+  if (isNaN(timeout.getFullYear()) || today > timeout) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export default Page;

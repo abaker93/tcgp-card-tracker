@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { IconClipboard, IconMenu, IconSave, IconXLarge } from "@/app/ui/icons";
-import { useEffect, useState } from "react";
-import { packImg } from "../lib/imgUtils";
-import Link from "next/link";
-import clsx from "clsx";
+import { IconClipboard, IconMenu, IconSave, IconXLarge } from '@/app/ui/icons';
+import { useEffect, useState } from 'react';
+import { packImg } from '@/app/lib/imgUtils';
+import Link from 'next/link';
+import clsx from 'clsx';
 import {
   copyToClipboard,
   getUserData,
   resetSaveReminder,
   saveToLocalStorage,
-} from "@/app/lib/functions";
+} from '@/app/lib/functions';
 
 const MenuDrawer = () => {
   const [open, setOpen] = useState(false);
@@ -54,11 +54,11 @@ const Drawer = (props) => {
 
   const styles = {
     button:
-      "flex h-12 w-full items-center gap-3 rounded-full px-4 transition hover:shadow-inset-box hover:bg-gradient-to-r hover:from-indigo-100/30 hover:to-blue-100/40",
+      'flex h-12 w-full items-center gap-3 rounded-full px-4 transition hover:shadow-inset-box hover:bg-gradient-to-r hover:from-indigo-100/30 hover:to-blue-100/40',
     divider: {
-      outer: "relative mx-auto mb-2 mt-5 w-full overflow-hidden",
+      outer: 'relative mx-auto mb-2 mt-5 w-full overflow-hidden',
       inner:
-        "mt-1 h-6 overflow-hidden shadow-[0_-1px_2px_-1px_white] after:mx-auto after:-mt-6 after:block after:h-6 after:w-11/12 after:rounded-[100px/12px] after:shadow-[0_0_20px_0_rgba(30,58,138,0.15)]",
+        'mt-1 h-6 overflow-hidden shadow-[0_-1px_2px_-1px_white] after:mx-auto after:-mt-6 after:block after:h-6 after:w-11/12 after:rounded-[100px/12px] after:shadow-[0_0_20px_0_rgba(30,58,138,0.15)]',
     },
   };
 
@@ -66,10 +66,10 @@ const Drawer = (props) => {
     <>
       <div
         className={clsx(
-          "fixed inset-0 z-50 h-screen w-screen bg-sky-700/20 backdrop-blur-sm transition",
+          'fixed inset-0 z-50 h-screen w-screen bg-sky-700/20 backdrop-blur-sm transition',
           {
-            "pointer-events-none opacity-0": !props.open,
-            "pointer-events-auto opacity-100": props.open,
+            'pointer-events-none opacity-0': !props.open,
+            'pointer-events-auto opacity-100': props.open,
           },
         )}
         aria-hidden="true"
@@ -83,10 +83,10 @@ const Drawer = (props) => {
         ></div>
         <div
           className={clsx(
-            "fixed inset-y-0 top-16 flex h-min w-screen max-w-md flex-col rounded-l-3xl bg-blue-50 px-8 py-16 shadow-btn transition",
+            'fixed inset-y-0 top-16 flex h-min w-screen max-w-md flex-col rounded-l-3xl bg-blue-50 px-8 py-16 shadow-btn transition',
             {
-              "-right-full": !props.open,
-              "right-0": props.open,
+              '-right-full': !props.open,
+              'right-0': props.open,
             },
           )}
         >
@@ -95,7 +95,7 @@ const Drawer = (props) => {
           </h2>
           <div className="flex w-full flex-col gap-3">
             <Link className={styles.button} href="/A1">
-              <div className="w-16">{packImg("A1")}</div>
+              <div className="w-16">{packImg('A1')}</div>
               <div className="flex items-center gap-3">
                 <div className="w-16 rounded-md bg-slate-900 px-5 py-0.5 text-center text-xs font-bold leading-none text-white">
                   A1
@@ -104,7 +104,7 @@ const Drawer = (props) => {
               </div>
             </Link>
             <Link className={styles.button} href="/PA">
-              <div className="w-16">{packImg("PA")}</div>
+              <div className="w-16">{packImg('PA')}</div>
               <div className="flex items-center gap-3">
                 <div className="w-16 rounded-md bg-slate-900 px-5 py-0.5 text-center text-xs font-bold leading-none text-white">
                   P-A
@@ -133,9 +133,9 @@ const Drawer = (props) => {
 
 const StorageModal = (props) => {
   const [userData, setUserData] = useState({});
-  const [textareaValue, setTextareaValue] = useState("");
+  const [textareaValue, setTextareaValue] = useState('');
   const [error, setError] = useState(false);
-  const [copyBtnText, setCopyBtnText] = useState("Copy to clipboard");
+  const [copyBtnText, setCopyBtnText] = useState('Copy to clipboard');
 
   useEffect(() => {
     const data = JSON.stringify(getUserData());
@@ -153,18 +153,18 @@ const StorageModal = (props) => {
   }, [textareaValue]);
 
   useEffect(() => {
-    if (copyBtnText !== "Copy to clipboard") {
-      setTimeout(() => setCopyBtnText("Copy to clipboard"), [4000]);
+    if (copyBtnText !== 'Copy to clipboard') {
+      setTimeout(() => setCopyBtnText('Copy to clipboard'), [4000]);
     }
   }, [copyBtnText]);
 
   return (
     <div
       className={clsx(
-        "fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-sky-700/20 backdrop-blur-sm transition",
+        'fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-sky-700/20 backdrop-blur-sm transition',
         {
-          "pointer-events-none opacity-0": !props.open,
-          "pointer-events-auto opacity-100": props.open,
+          'pointer-events-none opacity-0': !props.open,
+          'pointer-events-auto opacity-100': props.open,
         },
       )}
       aria-hidden="true"
@@ -178,10 +178,10 @@ const StorageModal = (props) => {
       ></div>
       <div
         className={clsx(
-          "inset-0 z-50 h-auto w-3/4 max-w-full rounded-3xl bg-blue-50 px-8 py-8 shadow-btn transition sm:w-1/2",
+          'inset-0 z-50 h-auto w-3/4 max-w-full rounded-3xl bg-blue-50 px-8 py-8 shadow-btn transition sm:w-1/2',
           {
             opacity: !props.open,
-            "opacity-100": props.open,
+            'opacity-100': props.open,
           },
         )}
       >
@@ -204,11 +204,11 @@ const StorageModal = (props) => {
         <textarea
           type="text"
           rows="5"
-          value={!textareaValue ? "Loading..." : textareaValue.toString()}
+          value={!textareaValue ? 'Loading...' : textareaValue.toString()}
           onChange={(e) => setTextareaValue(e.target.value)}
           className="mb-5 w-full break-all rounded-3xl border-0 bg-blue-50 px-4 py-2 text-slate-700 shadow-inset-box focus:outline-0 focus:ring-0"
         />
-        <div className={clsx("mb-5", { hidden: !error })}>
+        <div className={clsx('mb-5', { hidden: !error })}>
           <div className="w-full rounded-lg bg-red-200/40 px-4 py-2 text-red-500">
             <p className="font-bold">Something's up with your JSON above.</p>
             <p className="text-sm">
@@ -220,10 +220,10 @@ const StorageModal = (props) => {
         <div className="flex justify-between">
           <button
             className={clsx(
-              "flex items-center gap-3 rounded-full px-4 py-2 text-xl",
+              'flex items-center gap-3 rounded-full px-4 py-2 text-xl',
               {
-                "pointer-events-none opacity-50": !textareaValue || error,
-                "pointer-events-auto opacity-100 hover:bg-gradient-to-r hover:from-indigo-100/30 hover:to-blue-100/40 hover:shadow-inset-box":
+                'pointer-events-none opacity-50': !textareaValue || error,
+                'pointer-events-auto opacity-100 hover:bg-gradient-to-r hover:from-indigo-100/30 hover:to-blue-100/40 hover:shadow-inset-box':
                   textareaValue && !error,
               },
             )}
@@ -231,7 +231,7 @@ const StorageModal = (props) => {
             onClick={() => {
               resetSaveReminder();
               copyToClipboard(textareaValue.toString());
-              setCopyBtnText("Copied!");
+              setCopyBtnText('Copied!');
             }}
             type="button"
           >
@@ -240,10 +240,10 @@ const StorageModal = (props) => {
           </button>
           <button
             className={clsx(
-              "btn-gradient flex items-center gap-3 rounded-full px-8 py-2 text-xl transition",
+              'btn-gradient flex items-center gap-3 rounded-full px-8 py-2 text-xl transition',
               {
-                "pointer-events-none opacity-50": !textareaValue || error,
-                "pointer-events-auto opacity-100 hover:scale-90":
+                'pointer-events-none opacity-50': !textareaValue || error,
+                'pointer-events-auto opacity-100 hover:scale-90':
                   textareaValue && !error,
               },
             )}
