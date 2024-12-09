@@ -121,8 +121,6 @@ const Stats = (props: any) => {
         };
       });
 
-      console.log(rData);
-
       setPackGraphData(pData);
       setRarityGraphData(rData);
     }

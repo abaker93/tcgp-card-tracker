@@ -6,6 +6,7 @@ import Divider from './_ui/divider';
 import {
   IconClipboard,
   IconEmojiFrown,
+  IconHouse,
   IconSave,
   IconXLarge,
 } from '../ui/icons';
@@ -18,6 +19,7 @@ import {
 } from '../lib/functions';
 import GradientButton from './_ui/_buttons/gradient';
 import LinkButton from './_ui/_buttons/link';
+import Link from 'next/link';
 
 const Header = (props: any) => {
   const [openMenuDrawer, setOpenMenuDrawer] = useState(false);
@@ -72,6 +74,17 @@ const Header = (props: any) => {
             openMenuDrawer={openMenuDrawer}
           >
             <div className="flex w-full flex-col gap-3">
+              <Link
+                href="/"
+                className="flex h-12 w-full items-center gap-3 rounded-full px-4 transition hover:bg-gradient-to-r hover:from-indigo-100/30 hover:to-blue-100/40 hover:shadow-inset-box"
+                type="button"
+              >
+                <span className="text-lg">
+                  <IconHouse />
+                </span>
+                <span className="grow">Home</span>
+              </Link>
+              <Divider />
               <SetLink set="A1" href="A1" name="Genetic Apex" />
               <SetLink set="P-A" href="PA" name="Promo-A" />
               <Divider />

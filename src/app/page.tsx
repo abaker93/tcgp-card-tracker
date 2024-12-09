@@ -80,7 +80,9 @@ const Page = () => {
     };
 
     setCount(tempCount());
-    saveToLocalStorage('userData', JSON.stringify(userData));
+    if (Object.keys(userData).length > 0) {
+      saveToLocalStorage('userData', JSON.stringify(userData));
+    }
   }, [userData]);
 
   const onAdd = (c: any) => {

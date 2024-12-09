@@ -6,7 +6,9 @@ export const copyToClipboard = (text: string) => {
 
 export const getUserData = (setArr: any[]) => {
   const ls: any = localStorage.getItem('userData');
-  let data: any = JSON.parse(ls);
+  let data = JSON.parse(ls);
+
+  console.log(data);
 
   const sets = setArr.map((s) => {
     if (Object.keys(s).length > 0) {
