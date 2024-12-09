@@ -3,7 +3,19 @@ import PillButton from '../_ui/_buttons/pill';
 import clsx from 'clsx';
 import { packImg, rarity } from '@/app/lib/imgUtils';
 
-const Stats = (props: any) => {
+const Stats = ({
+  userData,
+  cards,
+  cardSets,
+  cardPacks,
+  cardRarity,
+}: {
+  userData: any;
+  cards: any;
+  cardSets: any;
+  cardPacks: any;
+  cardRarity: any;
+}) => {
   const [active, setActive] = useState(1);
   const [packGraphData, setPackGraphData] = useState<{ [key: string]: any }>(
     {},
@@ -13,7 +25,7 @@ const Stats = (props: any) => {
   }>({});
 
   useEffect(() => {
-    if (props.cards.length == 0) {
+    if (cards.length == 0) {
       return;
     } else {
       setPackGraphData({});
@@ -22,22 +34,20 @@ const Stats = (props: any) => {
       let pData = {};
       let rData = {};
 
-      props.cardSets.forEach((set: any) => {
+      cardSets.forEach((set: any) => {
         let setCount = 0;
         let setTotal = 0;
 
-        const packs = props.cardPacks.filter(
-          (pack: any) => pack.set.id === set.id,
-        );
+        const packs = cardPacks.filter((pack: any) => pack.set.id === set.id);
 
         if (packs.length === 0) {
-          props.cards
+          cards
             .filter((card: any) => card.set === set.id)
             .forEach((card: any) => {
               setTotal += 1;
               if (
-                props.userData[set.id][card.order] &&
-                props.userData[set.id][card.order] > 0
+                userData[set.id][card.order] &&
+                userData[set.id][card.order] > 0
               ) {
                 setCount += 1;
               } else {
@@ -58,7 +68,7 @@ const Stats = (props: any) => {
             let packCount = 0;
             let packTotal = 0;
 
-            props.cards
+            cards
               .filter((card: any) => card.set === set.id)
               .filter((card: any) =>
                 card.packs.some((p: any) => p.name == pack.name),
@@ -67,8 +77,8 @@ const Stats = (props: any) => {
                 packTotal += 1;
                 setTotal += 1;
                 if (
-                  props.userData[set.id][card.order] &&
-                  props.userData[set.id][card.order] > 0
+                  userData[set.id][card.order] &&
+                  userData[set.id][card.order] > 0
                 ) {
                   packCount += 1;
                   setCount += 1;
@@ -93,17 +103,17 @@ const Stats = (props: any) => {
         }
       });
 
-      props.cardRarity.forEach((rarity: any) => {
+      cardRarity.forEach((rarity: any) => {
         let rarityCount = 0;
         let rarityTotal = 0;
 
-        props.cards
+        cards
           .filter((card: any) => card.rarity === rarity.order)
           .forEach((card: any) => {
             rarityTotal += 1;
             if (
-              props.userData[card.set][card.order] &&
-              props.userData[card.set][card.order] > 0
+              userData[card.set][card.order] &&
+              userData[card.set][card.order] > 0
             ) {
               rarityCount += 1;
             } else {
@@ -124,7 +134,7 @@ const Stats = (props: any) => {
       setPackGraphData(pData);
       setRarityGraphData(rData);
     }
-  }, [props.userData, props.cards]);
+  }, [userData, cards]);
 
   const handleTabChange = (tab: number) => {
     if (tab === active) return;

@@ -14,7 +14,7 @@ import Stats from '@/app/_components/_stats/stats';
 import clsx from 'clsx';
 
 const Page = ({ params }: { params: Promise<{ set: string }> }) => {
-  const set = use(params).set;
+  const set = use(params).set.toUpperCase();
 
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({});
@@ -71,16 +71,14 @@ const Page = ({ params }: { params: Promise<{ set: string }> }) => {
   }, [lastSaveDate]);
 
   useEffect(() => {
-    const tempCount = () => {
-      return Object.keys(userData).reduce((prev, key) => {
-        const setSum = Object.keys(userData[key]).reduce((prev2, key2) => {
-          return prev2 + userData[key][key2];
-        }, 0);
-        return prev + setSum;
-      }, 0);
+    if (!userData[set]) return;
+
+    const tempCount = (o: any) => {
+      return Object.values(o).reduce((a: number, b: number) => a + b, 0);
     };
 
-    setCount(tempCount());
+    setCount(tempCount(userData[set]));
+
     if (Object.keys(userData).length > 0) {
       saveToLocalStorage('userData', JSON.stringify(userData));
     }
@@ -144,7 +142,7 @@ const Page = ({ params }: { params: Promise<{ set: string }> }) => {
           toggleStats={() => toggleStats()}
         />
 
-        <div className={clsx({ hidden: !showStats })}>
+        <div className={clsx('mb-10', { hidden: !showStats })}>
           <Stats
             userData={userData}
             cards={cards}
@@ -156,7 +154,7 @@ const Page = ({ params }: { params: Promise<{ set: string }> }) => {
 
         <CardContainer>
           {cards
-            .filter((card: any) => card.set === set.toUpperCase())
+            .filter((card: any) => card.set === set)
             .filter((card: any) => card.show)
             .sort((a: any, b: any) => a.order - b.order)
             .map((card: any) => (
