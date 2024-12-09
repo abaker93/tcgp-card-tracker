@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import "@/app/ui/globals.css";
+import type { Metadata } from 'next';
+import '@/app/ui/globals.css';
+import Footer from './_components/footer';
 
 export const metadata: Metadata = {
-  title: "Pokémon TCG Pocket Card Tracker",
-  description: "Track your Pokémon TCG Pocket card collection",
+  title: 'Pokémon TCG Pocket Card Tracker',
+  description: 'Track your Pokémon TCG Pocket card collection',
 };
 
 export default function RootLayout({
@@ -21,6 +22,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-100 via-85% to-blue-200 bg-fixed">
         {children}
+        {/* <Footer /> */}
       </body>
     </html>
   );
