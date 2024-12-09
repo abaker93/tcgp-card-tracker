@@ -11,7 +11,8 @@ import MainContainer from './_components/_ui/main';
 import SettingsBar from './_components/_cards/settingsBar';
 import Card from './_components/_cards/card';
 import SetHeader from './_components/_cards/setHeader';
-import Graph from './_components/_stats/graph';
+import Stats from './_components/_stats/stats';
+import clsx from 'clsx';
 
 const Page = () => {
   const [loading, setLoading] = useState(true);
@@ -114,6 +115,10 @@ const Page = () => {
     setUserData(data);
   };
 
+  const toggleStats = () => {
+    showStats ? setShowStats(false) : setShowStats(true);
+  };
+
   return loading ? (
     <div>Loading...</div>
   ) : (
@@ -133,16 +138,17 @@ const Page = () => {
         <SettingsBar
           count={count}
           showStats={showStats}
-          setShowStats={setShowStats}
+          toggleStats={() => toggleStats()}
         />
-
-        <Graph
-          userData={userData}
-          cards={cards}
-          cardSets={cardSets}
-          cardPacks={cardPacks}
-          cardRarity={cardRarity}
-        />
+        <div className={clsx({ hidden: !showStats })}>
+          <Stats
+            userData={userData}
+            cards={cards}
+            cardSets={cardSets}
+            cardPacks={cardPacks}
+            cardRarity={cardRarity}
+          />
+        </div>
 
         {cardSets.map((set: any) => (
           <div key={set._id}>

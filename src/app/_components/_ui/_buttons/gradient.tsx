@@ -1,17 +1,20 @@
 import clsx from 'clsx';
 
 const GradientButton = ({
+  className,
   onClick,
   disabled,
   children,
 }: {
-  onClick: any;
-  disabled: boolean;
+  className?: any;
+  onClick?: any;
+  disabled?: boolean;
   children: React.ReactNode;
 }) => {
   return (
     <button
       className={clsx(
+        className,
         'btn-gradient flex items-center gap-3 rounded-full px-8 py-2 transition',
         {
           'pointer-events-none opacity-50': disabled,
@@ -19,8 +22,8 @@ const GradientButton = ({
         },
       )}
       type="button"
-      onClick={onClick}
-      disabled={disabled}
+      {...(onClick && { onClick })}
+      {...(disabled && { disabled })}
     >
       {children}
     </button>
