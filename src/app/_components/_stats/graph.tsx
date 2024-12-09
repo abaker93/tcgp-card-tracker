@@ -1,32 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import PillButton from '../_ui/_buttons/pill';
 import clsx from 'clsx';
-import { packImg } from '@/app/lib/imgUtils';
+import { packImg, rarity } from '@/app/lib/imgUtils';
 
 const Stats = (props: any) => {
   const [active, setActive] = useState(1);
   const [packGraphData, setPackGraphData] = useState<{ [key: string]: any }>(
     {},
   );
+  const [rarityGraphData, setRarityGraphData] = useState<{
+    [key: string]: any;
+  }>({});
 
   useEffect(() => {
-    //   console.log(
-    //     'USERDATA:',
-    //     props.userData,
-    //     '\n CARDS:',
-    //     props.cards,
-    //     '\n CARDSETS:',
-    //     props.cardSets,
-    //     '\n CARDPACKS:',
-    //     props.cardPacks,
-    //   );
-
     if (props.cards.length == 0) {
       return;
     } else {
       setPackGraphData({});
+      setRarityGraphData({});
 
-      let data = {};
+      let pData = {};
+      let rData = {};
 
       props.cardSets.forEach((set: any) => {
         let setCount = 0;
@@ -51,10 +45,10 @@ const Stats = (props: any) => {
               }
             });
 
-          data = {
-            ...data,
+          pData = {
+            ...pData,
             [set.id]: {
-              ...data[set.id],
+              ...pData[set.id],
               total: setTotal,
               count: setCount,
             },
@@ -83,10 +77,10 @@ const Stats = (props: any) => {
                 }
               });
 
-            data = {
-              ...data,
+            pData = {
+              ...pData,
               [set.id]: {
-                ...data[set.id],
+                ...pData[set.id],
                 total: setTotal,
                 count: setCount,
                 [pack.name]: {
@@ -99,11 +93,40 @@ const Stats = (props: any) => {
         }
       });
 
-      setPackGraphData(data);
+      props.cardRarity.forEach((rarity: any) => {
+        let rarityCount = 0;
+        let rarityTotal = 0;
+
+        props.cards
+          .filter((card: any) => card.rarity === rarity.order)
+          .forEach((card: any) => {
+            rarityTotal += 1;
+            if (
+              props.userData[card.set][card.order] &&
+              props.userData[card.set][card.order] > 0
+            ) {
+              rarityCount += 1;
+            } else {
+              return;
+            }
+          });
+
+        rData = {
+          ...rData,
+          [rarity.order]: {
+            ...rData[rarity.order],
+            total: rarityTotal,
+            count: rarityCount,
+          },
+        };
+      });
+
+      console.log(rData);
+
+      setPackGraphData(pData);
+      setRarityGraphData(rData);
     }
   }, [props.userData, props.cards]);
-
-  // console.log('PACKGRAPHDATA:', packGraphData);
 
   const handleTabChange = (tab: number) => {
     if (tab === active) return;
@@ -114,13 +137,16 @@ const Stats = (props: any) => {
     <div className="overflow-hidden rounded-xl bg-blue-50 shadow-xl">
       <Tabs active={active} handleTabChange={handleTabChange} />
       <div
-        className={clsx('flex gap-3 p-8', {
-          hidden: active !== 1,
-        })}
+        className={clsx(
+          'grid grid-cols-2 gap-3 p-8 sm:grid-cols-3 lg:grid-cols-5',
+          {
+            hidden: active !== 1,
+          },
+        )}
       >
         {Object.keys(packGraphData).map((key: any) => (
           <React.Fragment key={key}>
-            <Cards
+            <Card
               image={packImg(key)}
               count={packGraphData[key].count}
               total={packGraphData[key].total}
@@ -129,7 +155,7 @@ const Stats = (props: any) => {
               Object.keys(packGraphData[key]).map(
                 (pack: any) =>
                   packGraphData[key][pack].total && (
-                    <Cards
+                    <Card
                       key={pack}
                       image={packImg(key, [{ id: pack, name: pack }])}
                       count={packGraphData[key][pack].count}
@@ -137,6 +163,25 @@ const Stats = (props: any) => {
                     />
                   ),
               )}
+          </React.Fragment>
+        ))}
+      </div>
+
+      <div
+        className={clsx(
+          'grid grid-cols-2 gap-3 p-8 sm:grid-cols-3 lg:grid-cols-6 xl:grid-cols-9',
+          {
+            hidden: active !== 2,
+          },
+        )}
+      >
+        {Object.keys(rarityGraphData).map((key: any) => (
+          <React.Fragment key={key}>
+            <Card
+              image={rarity(parseInt(key))}
+              count={rarityGraphData[key].count}
+              total={rarityGraphData[key].total}
+            />
           </React.Fragment>
         ))}
       </div>
@@ -165,25 +210,27 @@ const Tabs = (props: any) => {
   );
 };
 
-const Cards = ({
+const Card = ({
   count,
   image,
   total,
+  children,
 }: {
   count: number;
   image: any;
   total: number;
+  children?: React.ReactNode;
 }) => {
   const percent = ((count / total) * 100).toFixed(2).toString();
 
   return (
     <div className="flex flex-1 flex-col items-center gap-2 rounded-xl p-4 shadow-btn">
-      <div className="w-16">{image}</div>
+      <div className="flex h-12 w-16 items-center justify-center">{image}</div>
       <div className="flex w-full items-center justify-between">
         <p className="text-sm font-bold">
           {count} / {total}
         </p>
-        <p className="text-sm font-bold">{percent}%</p>
+        <p className="text-xs font-bold">{percent}%</p>
       </div>
       <div className="relative h-1.5 w-full rounded-full bg-slate-200">
         <div
@@ -191,6 +238,7 @@ const Cards = ({
           style={{ width: percent + '%' }}
         />
       </div>
+      {children}
     </div>
   );
 };

@@ -76,7 +76,6 @@ export const energyImg = (energy: string) => {
 };
 
 export const packImg = (set: string, packs: any[]) => {
-  console.log(set, packs);
   switch (set) {
     case 'A1':
       if (!packs) {
@@ -137,14 +136,48 @@ export const packImg = (set: string, packs: any[]) => {
         }
       }
     case 'PA': {
-      return (
-        <Image
-          src="/img/sets/pa-logo.png"
-          alt="Promo"
-          width="473"
-          height="254"
-        />
-      );
+      if (!packs) {
+        return (
+          <Image
+            src="/img/sets/pa-logo.png"
+            alt="Promo"
+            width="473"
+            height="254"
+          />
+        );
+      } else {
+        if (packs.length > 1) {
+          <Image
+            src="/img/sets/pa-logo.png"
+            alt="Promo"
+            width="473"
+            height="254"
+          />;
+        } else {
+          switch (packs[0].id) {
+            case 1:
+            case 'Vol 1':
+              return (
+                <Image
+                  src="/img/sets/pa-v1-logo.png"
+                  alt="Promo Vol 1"
+                  width="340"
+                  height="205"
+                />
+              );
+            case 2:
+            case 'Vol 2':
+              return (
+                <Image
+                  src="/img/sets/pa-v2-logo.png"
+                  alt="Promo Vol 2"
+                  width="340"
+                  height="205"
+                />
+              );
+          }
+        }
+      }
     }
   }
 };

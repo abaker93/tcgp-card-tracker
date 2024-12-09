@@ -20,9 +20,11 @@ const Page = () => {
 
   const [cardSets, setCardSets] = useState([]);
   const [cardPacks, setCardPacks] = useState([]);
+  const [cardRarity, setCardRarity] = useState([]);
   const [cards, setCards] = useState([]);
 
   const [showSaveAlert, setShowSaveAlert] = useState(false);
+  const [showStats, setShowStats] = useState(false);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -38,6 +40,12 @@ const Page = () => {
       setCardPacks(data);
     };
 
+    const fetchCardRarity = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/rarity`);
+      const data = await res.json();
+      setCardRarity(data);
+    };
+
     const fetchCards = async () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cards`);
       const data = await res.json();
@@ -47,6 +55,7 @@ const Page = () => {
     setLastSaveDate(localStorage.getItem('lastSaveDate') || '');
     fetchCardSets();
     fetchCardPacks();
+    fetchCardRarity();
     fetchCards();
   }, []);
 
@@ -121,13 +130,18 @@ const Page = () => {
         setUserData={(e: any) => setUserData(e)}
       />
       <MainContainer>
-        <SettingsBar count={count} />
+        <SettingsBar
+          count={count}
+          showStats={showStats}
+          setShowStats={setShowStats}
+        />
 
         <Graph
           userData={userData}
           cards={cards}
           cardSets={cardSets}
           cardPacks={cardPacks}
+          cardRarity={cardRarity}
         />
 
         {cardSets.map((set: any) => (
