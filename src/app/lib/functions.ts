@@ -8,7 +8,7 @@ export const getUserData = (setArr: any[]) => {
   const ls: any = localStorage.getItem('userData');
   let data = JSON.parse(ls);
 
-  console.log(data);
+  // console.log(setArr);
 
   const sets = setArr.map((s) => {
     if (Object.keys(s).length > 0) {

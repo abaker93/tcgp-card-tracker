@@ -1,24 +1,25 @@
 import { useEffect, useState } from 'react';
-import MenuButton from './_menu/menuButton';
-import MenuDrawer from './_menu/menuDrawer';
-import SetLink from './_menu/setLink';
-import Divider from './_ui/divider';
+import MenuButton from '@/app/_components/_menu/menuButton';
+import MenuDrawer from '@/app/_components/_menu/menuDrawer';
+import SetLink from '@/app/_components/_menu/setLink';
+import Divider from '@/app/_components/_ui/divider';
 import {
+  IconArrow,
   IconClipboard,
   IconEmojiFrown,
   IconHouse,
   IconSave,
   IconXLarge,
-} from '../ui/icons';
-import Modal from './_ui/modal';
+} from '@/app/ui/icons';
+import Modal from '@/app/_components/_ui/modal';
 import clsx from 'clsx';
 import {
   copyToClipboard,
   resetSaveReminder,
   saveToLocalStorage,
-} from '../lib/functions';
-import GradientButton from './_ui/_buttons/gradient';
-import LinkButton from './_ui/_buttons/link';
+} from '@/app/lib/functions';
+import GradientButton from '@/app/_components/_ui/_buttons/gradient';
+import LinkButton from '@/app/_components/_ui/_buttons/link';
 import Link from 'next/link';
 
 const Header = (props: any) => {
@@ -65,6 +66,16 @@ const Header = (props: any) => {
   return (
     <div className="min-w-100 shadow-xl">
       <div className="relative mx-auto max-w-7xl p-8">
+        {props.back && (
+          <Link href={props.back} className="absolute left-0 top-0 p-6">
+            <button
+              className="mr-0.5 rounded-full bg-indigo-50 p-2 text-3xl shadow-btn transition hover:scale-110 hover:bg-indigo-100/50"
+              type="button"
+            >
+              <IconArrow dir="left" />
+            </button>
+          </Link>
+        )}
         <h1 className="text-center text-2xl font-bold">My Cards</h1>
         <div className="absolute right-0 top-0 p-6">
           <MenuButton toggleMenuDrawer={() => toggleMenuDrawer()} />

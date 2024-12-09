@@ -1,120 +1,33 @@
-'use client';
-
-import Alerts from '@/app/_components/alerts';
-import { use, useEffect, useState } from 'react';
-import Header from '@/app/_components/header';
-import MainContainer from '@/app/_components/_ui/main';
-import {
-  getUserData,
-  leadingZero,
-  saveToLocalStorage,
-} from '@/app/lib/functions';
-import { ImageWithFallback } from '@/app/lib/imgWithFallback';
+import { leadingZero } from '@/app/lib/functions';
 import { energyImg, packImg, rarity } from '@/app/lib/imgUtils';
-import { IconCard, IconMinus, IconPlus } from '@/app/ui/icons';
+import Image from 'next/image';
+import CardCount from './_components/count';
+import Header from './_components/header';
 
-const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
-  const set = use(params).set.toUpperCase();
-  const id = use(params).id;
+const Page = async ({
+  params,
+}: {
+  params: Promise<{ id: number; set: string }>;
+}) => {
+  const set = (await params).set;
+  const id = (await params).id;
 
-  const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState({});
-  const [lastSaveDate, setLastSaveDate] = useState('');
+  const count = 2;
 
-  const [cardSets, setCardSets] = useState([]);
-  const [card, setCard] = useState({});
-  const [pack, setPack] = useState([]);
-
-  const [showSaveAlert, setShowSaveAlert] = useState(false);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const fetchCardSets = async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/sets`);
-      const data = await res.json();
-      setCardSets(data);
-    };
-
-    const fetchPack = async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/${set}`);
-      const data = await res.json();
-      setPack(data);
-    };
-
-    const fetchCard = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/${set}/cards/${id}`,
-      );
-      const data = await res.json();
-      setCard(data);
-    };
-
-    setLastSaveDate(localStorage.getItem('lastSaveDate') || '');
-    fetchCardSets();
-    fetchPack();
-    fetchCard();
-  }, []);
-
-  useEffect(() => {
-    setUserData(getUserData(cardSets));
-  }, [cardSets]);
-
-  useEffect(() => {
-    if (Object.keys(card).length > 0) {
-      setLoading(false);
-    }
-  });
-
-  useEffect(() => {
-    setShowSaveAlert(saveAlertTimeout(lastSaveDate));
-  }, [lastSaveDate]);
-
-  useEffect(() => {
-    if (!userData) return;
-    if (!userData[set]) return;
-
-    if (!userData[set][id]) {
-      return;
-    } else {
-      setCount(userData[set][id]);
-    }
-
-    if (Object.keys(userData).length > 0) {
-      saveToLocalStorage('userData', JSON.stringify(userData));
-    }
-  }, [userData]);
-
-  const onAdd = (c: any) => {
-    let newCount = userData[c.set][c.order];
-
-    newCount = newCount ? newCount + 1 : 1;
-
-    const data = {
-      ...userData,
-      [c.set]: {
-        ...userData[c.set],
-        [c.order]: newCount,
-      },
-    };
-
-    setUserData(data);
+  const fetchCard = async () => {
+    const res = await fetch(`${process.env.URL}/api/${set}/cards/${id}`);
+    const data = await res.json();
+    return data;
   };
 
-  const onSubtract = (c: any) => {
-    let newCount = userData[c.set][c.order];
-
-    newCount = newCount && newCount > 0 ? newCount - 1 : 0;
-
-    const data = {
-      ...userData,
-      [c.set]: {
-        ...userData[c.set],
-        [c.order]: newCount,
-      },
-    };
-
-    setUserData(data);
+  const fetchPack = async () => {
+    const res = await fetch(`${process.env.URL}/api/${set}`);
+    const data = await res.json();
+    return data;
   };
+
+  const card = await fetchCard();
+  const pack = await fetchPack();
 
   const styles = {
     data: {
@@ -129,37 +42,20 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
     },
   };
 
-  return loading ? (
-    <div>Loading...</div>
-  ) : (
+  return (
     <>
-      <Alerts show={showSaveAlert}>
-        <p className="font-bold">
-          Your data has not been saved in the last 7 days.
-        </p>
-        <p>Don't forget to backup your data!</p>
-      </Alerts>
-
-      <Header
-        userData={userData}
-        setLastSaveDate={(e: any) => setLastSaveDate(e)}
-        setUserData={(e: any) => setUserData(e)}
-        back={`/${set}`}
-      />
-
-      <MainContainer>
+      <Header set={card.set} />
+      <div className="mx-auto max-w-7xl p-8">
         <div className="grid grid-flow-col grid-cols-12">
           <div className="col-span-4">
-            <ImageWithFallback
+            <Image
               width={367}
               height={512}
-              priority={true}
               src={card.image}
-              fallbackSrc="/img/card-placeholder.png"
               alt={card.name}
+              priority={true}
             />
           </div>
-
           <div className="col-span-8 rounded-3xl bg-blue-50 shadow-btn">
             <div className="flex flex-col gap-8 p-8">
               {/* name + rarity + count */}
@@ -168,26 +64,11 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
                 <div className="flex h-5 justify-center">
                   {rarity(card.rarity)}
                 </div>
-                <div className="absolute right-0 top-0 flex-col">
-                  <div className="flex w-min items-center gap-5 rounded-full px-5 py-1 text-xl font-bold text-slate-500 shadow-inset-box">
-                    <IconCard />
-                    <span className="text-slate-800">{count}</span>
-                  </div>
-                  <div className="flex justify-end p-0.5">
-                    <button
-                      className="mr-0.5 rounded-full bg-indigo-50 p-0.5 text-3xl shadow-btn transition hover:bg-green-500 hover:text-white"
-                      onClick={() => onAdd(card)}
-                    >
-                      <IconPlus />
-                    </button>
-                    <button
-                      className="rounded-full bg-indigo-50 p-0.5 text-3xl shadow-btn transition hover:bg-red-500 hover:text-white"
-                      onClick={() => onSubtract(card)}
-                    >
-                      <IconMinus />
-                    </button>
-                  </div>
-                </div>
+                <CardCount card={card} />
+                {/* <div className="absolute right-0 top-0 flex w-min items-center gap-5 rounded-full px-5 py-1 text-xl font-bold text-slate-500 shadow-inset-box">
+                  <IconCard />
+                  <span className="text-slate-800">{count}</span>
+                </div> */}
               </div>
 
               {/* pack + number */}
@@ -200,7 +81,7 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
                     {card.set}
                   </div>
                   <p className="grow text-center font-semibold leading-none">
-                    {leadingZero(card.order, 3)} / {pack.uniqueCards}
+                    {leadingZero(card.order, 3)}/{pack.uniqueCards}
                   </p>
                 </div>
               </div>
@@ -310,22 +191,9 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
             </div>
           </div>
         </div>
-      </MainContainer>
+      </div>
     </>
   );
-};
-
-const saveAlertTimeout = (save: any) => {
-  const offset = 7 * (24 * 60 * 60 * 1000);
-  const timeout = new Date(save);
-  const today = new Date();
-  timeout.setTime(timeout.getTime() + offset);
-
-  if (isNaN(timeout.getFullYear()) || today > timeout) {
-    return true;
-  } else {
-    return false;
-  }
 };
 
 export default Page;

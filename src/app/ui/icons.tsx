@@ -5,7 +5,7 @@ interface DirProps {
 export const IconArrow = ({ dir }: DirProps) => {
   switch (dir) {
     case 'up':
-      console.log('up');
+      // console.log('up');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@ export const IconArrow = ({ dir }: DirProps) => {
         </svg>
       );
     case 'down':
-      console.log('down');
+      // console.log('down');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@ export const IconArrow = ({ dir }: DirProps) => {
         </svg>
       );
     case 'left':
-      console.log('left');
+      // console.log('left');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +50,7 @@ export const IconArrow = ({ dir }: DirProps) => {
         </svg>
       );
     case 'right':
-      console.log('right');
+      // console.log('right');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
