@@ -51,7 +51,7 @@ export const resetSaveReminder = () => {
   saveToLocalStorage('lastSaveDate', new Date().toString());
 };
 
-export const saveToLocalStorage = (key: string, data: undefined) => {
+export const saveToLocalStorage = (key: string, data: string) => {
   localStorage.setItem(key, data.toString());
 };
 
