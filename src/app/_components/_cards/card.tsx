@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ImageWithFallback } from '@/app/lib/imgWithFallback';
 import IconButton from '../_ui/_buttons/icon';
 
-const Card = (props: any) => {
+const Card = (props: undefined) => {
   return (
     <div className="group relative rounded-lg shadow-xl transition hover:z-10 hover:scale-110">
       <div className="relative rounded-lg">

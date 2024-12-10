@@ -5,7 +5,7 @@ const LinkButton = ({
   className,
   children,
 }: {
-  onClick: any;
+  onClick: () => void;
   className?: string;
   children: React.ReactNode;
 }) => {

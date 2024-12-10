@@ -4,8 +4,8 @@ export const copyToClipboard = (text: string) => {
   // console.log('Copied to clipboard:', text);
 };
 
-export const getUserData = (setArr: any[]) => {
-  const ls: any = localStorage.getItem('userData');
+export const getUserData = (setArr: undefined[]) => {
+  const ls: string = localStorage.getItem('userData');
   let data = JSON.parse(ls);
 
   // console.log(setArr);
@@ -51,7 +51,7 @@ export const resetSaveReminder = () => {
   saveToLocalStorage('lastSaveDate', new Date().toString());
 };
 
-export const saveToLocalStorage = (key: string, data: any) => {
+export const saveToLocalStorage = (key: string, data: undefined) => {
   localStorage.setItem(key, data.toString());
 };
 

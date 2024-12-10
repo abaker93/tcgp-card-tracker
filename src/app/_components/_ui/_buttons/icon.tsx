@@ -5,8 +5,8 @@ const IconButton = ({
   className,
   children,
 }: {
-  onClick: any;
-  className?: any;
+  onClick: () => void;
+  className?: undefined;
   children: React.ReactNode;
 }) => {
   return (

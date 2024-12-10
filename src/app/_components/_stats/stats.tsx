@@ -10,18 +10,27 @@ const Stats = ({
   cardPacks,
   cardRarity,
 }: {
-  userData: any;
-  cards: any;
-  cardSets: any;
-  cardPacks: any;
-  cardRarity: any;
+  userData: { [key: string]: { [key: string]: number } };
+  cards: {
+    order: number;
+    set: string;
+    rarity: number;
+    packs?: { name: string }[];
+  }[];
+  cardSets: { id: string }[];
+  cardPacks: { name: string; set: { id: string } }[];
+  cardRarity: { order: number }[];
 }) => {
   const [active, setActive] = useState(1);
-  const [packGraphData, setPackGraphData] = useState<{ [key: string]: any }>(
-    {},
-  );
+  const [packGraphData, setPackGraphData] = useState<{
+    [key: string]: {
+      total: number;
+      count: number;
+      [packName: string]: { total?: number; count?: number } | number;
+    };
+  }>({});
   const [rarityGraphData, setRarityGraphData] = useState<{
-    [key: string]: any;
+    [key: string]: { total: number; count: number };
   }>({});
 
   useEffect(() => {
@@ -31,19 +40,32 @@ const Stats = ({
       setPackGraphData({});
       setRarityGraphData({});
 
-      let pData = {};
-      let rData = {};
+      let pData: {
+        [key: string]: {
+          total: number;
+          count: number;
+          [packName: string]: { total: number; count: number } | number;
+        };
+      } = {};
+      let rData: {
+        [key: number]: {
+          total: number;
+          count: number;
+        };
+      } = {};
 
-      cardSets.forEach((set: any) => {
+      cardSets.forEach((set: { id: string }) => {
         let setCount = 0;
         let setTotal = 0;
 
-        const packs = cardPacks.filter((pack: any) => pack.set.id === set.id);
+        const packs = cardPacks.filter(
+          (pack: { set: { id: string } }) => pack.set.id === set.id,
+        );
 
         if (packs.length === 0) {
           cards
-            .filter((card: any) => card.set === set.id)
-            .forEach((card: any) => {
+            .filter((card: { set: string }) => card.set === set.id)
+            .forEach((card: { order: number }) => {
               setTotal += 1;
               if (
                 userData[set.id][card.order] &&
@@ -64,16 +86,20 @@ const Stats = ({
             },
           };
         } else {
-          packs.forEach((pack: any) => {
+          packs.forEach((pack: { name: string; set: { id: string } }) => {
             let packCount = 0;
             let packTotal = 0;
 
             cards
-              .filter((card: any) => card.set === set.id)
-              .filter((card: any) =>
-                card.packs.some((p: any) => p.name == pack.name),
+              .filter((card: { set: string }) => card.set === set.id)
+              .filter(
+                (card: { packs?: { name: string }[] }) =>
+                  card.packs &&
+                  card.packs.some(
+                    (p: { name: string }) => p.name === pack.name,
+                  ),
               )
-              .forEach((card: any) => {
+              .forEach((card: { order: number }) => {
                 packTotal += 1;
                 setTotal += 1;
                 if (
@@ -103,13 +129,13 @@ const Stats = ({
         }
       });
 
-      cardRarity.forEach((rarity: any) => {
+      cardRarity.forEach((rarity: { order: number }) => {
         let rarityCount = 0;
         let rarityTotal = 0;
 
         cards
-          .filter((card: any) => card.rarity === rarity.order)
-          .forEach((card: any) => {
+          .filter((card: { rarity: number }) => card.rarity === rarity.order)
+          .forEach((card: { order: number; set: string }) => {
             rarityTotal += 1;
             if (
               userData[card.set][card.order] &&
@@ -134,7 +160,7 @@ const Stats = ({
       setPackGraphData(pData);
       setRarityGraphData(rData);
     }
-  }, [userData, cards]);
+  }, [userData, cards, cardPacks, cardRarity, cardSets]);
 
   const handleTabChange = (tab: number) => {
     if (tab === active) return;
@@ -152,7 +178,7 @@ const Stats = ({
           },
         )}
       >
-        {Object.keys(packGraphData).map((key: any) => (
+        {Object.keys(packGraphData).map((key: string) => (
           <React.Fragment key={key}>
             <Card
               image={packImg(key)}
@@ -161,12 +187,13 @@ const Stats = ({
             />
             {Object.keys(packGraphData[key]).length > 0 &&
               Object.keys(packGraphData[key]).map(
-                (pack: any) =>
+                (pack: string) =>
+                  typeof packGraphData[key][pack] === 'object' &&
                   packGraphData[key][pack].total && (
                     <Card
                       key={pack}
                       image={packImg(key, [{ id: pack, name: pack }])}
-                      count={packGraphData[key][pack].count}
+                      count={packGraphData[key][pack].count || 0}
                       total={packGraphData[key][pack].total}
                     />
                   ),
@@ -183,7 +210,7 @@ const Stats = ({
           },
         )}
       >
-        {Object.keys(rarityGraphData).map((key: any) => (
+        {Object.keys(rarityGraphData).map((key: string) => (
           <React.Fragment key={key}>
             <Card
               image={rarity(parseInt(key))}
@@ -197,20 +224,26 @@ const Stats = ({
   );
 };
 
-const Tabs = (props: any) => {
+const Tabs = ({
+  active,
+  handleTabChange,
+}: {
+  active: number;
+  handleTabChange: (tab: number) => void;
+}) => {
   return (
     <div className="min-w-100 flex items-center gap-2 bg-blue-50 p-4 shadow-xl">
       <PillButton
-        active={props.active == 1}
+        active={active == 1}
         outline={true}
-        onClick={() => props.handleTabChange(1)}
+        onClick={() => handleTabChange(1)}
       >
         Packs
       </PillButton>
       <PillButton
-        active={props.active == 2}
+        active={active == 2}
         outline={true}
-        onClick={() => props.handleTabChange(2)}
+        onClick={() => handleTabChange(2)}
       >
         Rarity
       </PillButton>
@@ -225,7 +258,7 @@ const Card = ({
   children,
 }: {
   count: number;
-  image: any;
+  image: React.ReactNode;
   total: number;
   children?: React.ReactNode;
 }) => {

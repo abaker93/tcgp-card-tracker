@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-import MenuButton from '@/app/_components/_menu/menuButton';
-import MenuDrawer from '@/app/_components/_menu/menuDrawer';
-import SetLink from '@/app/_components/_menu/setLink';
-import Divider from '@/app/_components/_ui/divider';
+import Link from 'next/link';
+import clsx from 'clsx';
 import {
   IconArrow,
   IconClipboard,
@@ -11,18 +9,23 @@ import {
   IconSave,
   IconXLarge,
 } from '@/app/ui/icons';
-import Modal from '@/app/_components/_ui/modal';
-import clsx from 'clsx';
 import {
   copyToClipboard,
   resetSaveReminder,
   saveToLocalStorage,
 } from '@/app/lib/functions';
+
+import MenuButton from '@/app/_components/_menu/menuButton';
+import MenuDrawer from '@/app/_components/_menu/menuDrawer';
+import SetLink from '@/app/_components/_menu/setLink';
+
+import Divider from '@/app/_components/_ui/divider';
+import Modal from '@/app/_components/_ui/modal';
+
 import GradientButton from '@/app/_components/_ui/_buttons/gradient';
 import LinkButton from '@/app/_components/_ui/_buttons/link';
-import Link from 'next/link';
 
-const Header = (props: any) => {
+const Header = (props: undefined) => {
   const [openMenuDrawer, setOpenMenuDrawer] = useState(false);
   const [openStorageModal, setOpenStorageModal] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState('');
@@ -43,8 +46,6 @@ const Header = (props: any) => {
     } catch (e) {
       setJsonError({ error: true, message: e.toString() });
     }
-
-    // console.log(jsonError);
   }, [textAreaValue]);
 
   useEffect(() => {
@@ -54,12 +55,10 @@ const Header = (props: any) => {
   }, [copyBtnText]);
 
   const toggleMenuDrawer = () => {
-    // console.log('toggleMenuDrawer: ', !openMenuDrawer);
     setOpenMenuDrawer(!openMenuDrawer);
   };
 
   const toggleStorageModal = () => {
-    // console.log('toggleStorageModal: ', !openStorageModal);
     setOpenStorageModal(!openStorageModal);
   };
 
@@ -136,11 +135,11 @@ const Header = (props: any) => {
             <div className={clsx('mb-5', { hidden: !jsonError.error })}>
               <div className="w-full rounded-lg bg-red-200/40 px-4 py-2 text-red-500">
                 <p className="flex items-center gap-1 font-bold">
-                  Something's up with your JSON <IconEmojiFrown />
+                  Something&apos;s up with your JSON <IconEmojiFrown />
                 </p>
                 <p className="text-sm">
                   Check the error message below or try pasting again. This
-                  message will go away when everything's corrected.
+                  message will go away when everything&apos;s corrected.
                 </p>
                 <code className="text-xs text-red-400">
                   {jsonError.message}

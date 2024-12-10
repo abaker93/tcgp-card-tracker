@@ -7,8 +7,8 @@ const SettingsBar = ({
   toggleStats,
 }: {
   count: number;
-  showStats: any;
-  toggleStats: any;
+  showStats: boolean;
+  toggleStats: () => void;
 }) => {
   return (
     <div className="min-w-100 sticky top-5 z-20 mb-8 flex items-center justify-between gap-5 rounded-xl bg-blue-50 p-4 shadow-xl">

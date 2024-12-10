@@ -75,7 +75,7 @@ export const energyImg = (energy: string) => {
   }
 };
 
-export const packImg = (set: string, packs: any[]) => {
+export const packImg = (set: string, packs?: undefined[]) => {
   switch (set) {
     case 'A1':
       if (!packs) {

@@ -53,7 +53,7 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
     fetchCardSets();
     fetchPack();
     fetchCard();
-  }, []);
+  }, [set, id]);
 
   useEffect(() => {
     setUserData(getUserData(cardSets));
@@ -63,7 +63,7 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
     if (Object.keys(card).length > 0) {
       setLoading(false);
     }
-  });
+  }, [card]);
 
   useEffect(() => {
     setShowSaveAlert(saveAlertTimeout(lastSaveDate));
@@ -82,9 +82,9 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
     if (Object.keys(userData).length > 0) {
       saveToLocalStorage('userData', JSON.stringify(userData));
     }
-  }, [userData]);
+  }, [userData, id, set]);
 
-  const onAdd = (c: any) => {
+  const onAdd = (c: { set: string; order: number }) => {
     let newCount = userData[c.set][c.order];
 
     newCount = newCount ? newCount + 1 : 1;
@@ -100,7 +100,7 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
     setUserData(data);
   };
 
-  const onSubtract = (c: any) => {
+  const onSubtract = (c: { set: string; order: number }) => {
     let newCount = userData[c.set][c.order];
 
     newCount = newCount && newCount > 0 ? newCount - 1 : 0;
@@ -137,13 +137,15 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
         <p className="font-bold">
           Your data has not been saved in the last 7 days.
         </p>
-        <p>Don't forget to backup your data!</p>
+        <p>Don&apos;t forget to backup your data!</p>
       </Alerts>
 
       <Header
         userData={userData}
-        setLastSaveDate={(e: any) => setLastSaveDate(e)}
-        setUserData={(e: any) => setUserData(e)}
+        setLastSaveDate={(e: string) => setLastSaveDate(e)}
+        setUserData={(e: { [key: string]: { [key: string]: number } }) =>
+          setUserData(e)
+        }
         back={`/${set}`}
       />
 
@@ -219,22 +221,29 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
                   <div className={styles.section.heading}>
                     <p>Attacks</p>
                   </div>
-                  {card.moves.map((move: any, index: any) => (
-                    <div key={index} className="mb-5 last:mb-0">
-                      <div className="flex items-center gap-3">
-                        <div className="flex gap-1">
-                          {move.energy.map((energy: string, index: any) => (
-                            <div key={index} className="w-5">
-                              {energyImg(energy)}
-                            </div>
-                          ))}
+                  {card.moves.map(
+                    (
+                      move: { damage: number; energy: string[]; name: string },
+                      index: number,
+                    ) => (
+                      <div key={index} className="mb-5 last:mb-0">
+                        <div className="flex items-center gap-3">
+                          <div className="flex gap-1">
+                            {move.energy.map(
+                              (energy: string, index: number) => (
+                                <div key={index} className="w-5">
+                                  {energyImg(energy)}
+                                </div>
+                              ),
+                            )}
+                          </div>
+                          <p className="grow text-xl font-bold">{move.name}</p>
+                          <p className="text-xl font-bold">{move.damage}</p>
                         </div>
-                        <p className="grow text-xl font-bold">{move.name}</p>
-                        <p className="text-xl font-bold">{move.damage}</p>
+                        <p className="text-slate-500">{move.text}</p>
                       </div>
-                      <p className="text-slate-500">{move.text}</p>
-                    </div>
-                  ))}
+                    ),
+                  )}
                 </div>
               )}
 
@@ -290,7 +299,7 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
                   <div className={styles.data.row}>
                     <p className={styles.data.heading}>Retreat</p>
                     <div className={`flex gap-1 ${styles.data.body}`}>
-                      {[...Array(card.retreat).keys()].map((key: any) => (
+                      {[...Array(card.retreat).keys()].map((key: number) => (
                         <div key={key} className="w-5">
                           {energyImg('Colorless')}
                         </div>
@@ -315,7 +324,7 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
   );
 };
 
-const saveAlertTimeout = (save: any) => {
+const saveAlertTimeout = (save: string) => {
   const offset = 7 * (24 * 60 * 60 * 1000);
   const timeout = new Date(save);
   const today = new Date();

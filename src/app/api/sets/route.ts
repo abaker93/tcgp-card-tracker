@@ -10,7 +10,7 @@ export async function GET() {
   try {
     const sets = await Set.find({});
     return NextResponse.json(sets);
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json({ error: err.message });
   }
 }

@@ -9,8 +9,8 @@ const PillButton = ({
 }: {
   outline?: boolean;
   active?: boolean;
-  onClick?: any;
-  className?: any;
+  onClick?: () => void;
+  className?: undefined;
   children: React.ReactNode;
 }) => {
   return (

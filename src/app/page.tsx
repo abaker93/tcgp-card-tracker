@@ -85,7 +85,7 @@ const Page = () => {
     }
   }, [userData]);
 
-  const onAdd = (c: any) => {
+  const onAdd = (c: { set: string; order: number }) => {
     let newCount = userData[c.set][c.order];
 
     newCount = newCount ? newCount + 1 : 1;
@@ -101,7 +101,7 @@ const Page = () => {
     setUserData(data);
   };
 
-  const onSubtract = (c: any) => {
+  const onSubtract = (c: { set: string; order: number }) => {
     let newCount = userData[c.set][c.order];
 
     newCount = newCount && newCount > 0 ? newCount - 1 : 0;
@@ -118,7 +118,7 @@ const Page = () => {
   };
 
   const toggleStats = () => {
-    showStats ? setShowStats(false) : setShowStats(true);
+    setShowStats(!showStats);
   };
 
   return loading ? (
@@ -129,19 +129,24 @@ const Page = () => {
         <p className="font-bold">
           Your data has not been saved in the last 7 days.
         </p>
-        <p>Don't forget to backup your data!</p>
+        <p>Don&apos;t forget to backup your data!</p>
       </Alerts>
+
       <Header
         userData={userData}
-        setLastSaveDate={(e: any) => setLastSaveDate(e)}
-        setUserData={(e: any) => setUserData(e)}
+        setLastSaveDate={(e: string) => setLastSaveDate(e)}
+        setUserData={(e: { [key: string]: { [key: string]: number } }) =>
+          setUserData(e)
+        }
       />
+
       <MainContainer>
         <SettingsBar
           count={count}
           showStats={showStats}
           toggleStats={() => toggleStats()}
         />
+
         <div className={clsx({ hidden: !showStats })}>
           <Stats
             userData={userData}
@@ -152,15 +157,18 @@ const Page = () => {
           />
         </div>
 
-        {cardSets.map((set: any) => (
+        {cardSets.map((set: { [key: string]: undefined }) => (
           <div key={set._id}>
             <SetHeader set={set} />
             <CardContainer>
               {cards
-                .filter((card: any) => card.set === set.id)
-                .filter((card: any) => card.show)
-                .sort((a: any, b: any) => a.order - b.order)
-                .map((card: any) => (
+                .filter((card: { set: string }) => card.set === set.id)
+                .filter((card: { show: boolean }) => card.show)
+                .sort(
+                  (a: { order: number }, b: { order: number }) =>
+                    a.order - b.order,
+                )
+                .map((card: { [key: string]: undefined }) => (
                   <Card
                     key={card._id}
                     card={card}
@@ -177,7 +185,7 @@ const Page = () => {
   );
 };
 
-const saveAlertTimeout = (save: any) => {
+const saveAlertTimeout = (save: string) => {
   const offset = 7 * (24 * 60 * 60 * 1000);
   const timeout = new Date(save);
   const today = new Date();

@@ -1,9 +1,9 @@
 import IconButton from '@/app/_components/_ui/_buttons/icon';
 import { IconMenu } from '@/app/ui/icons';
 
-const MenuButton = (props: any) => {
+const MenuButton = ({ toggleMenuDrawer }: { toggleMenuDrawer: () => void }) => {
   return (
-    <IconButton onClick={props.toggleMenuDrawer}>
+    <IconButton onClick={toggleMenuDrawer}>
       <IconMenu />
     </IconButton>
   );

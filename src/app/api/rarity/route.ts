@@ -10,7 +10,7 @@ export async function GET() {
   try {
     const rarities = await Rarity.find({});
     return NextResponse.json(rarities);
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json({ error: err.message });
   }
 }

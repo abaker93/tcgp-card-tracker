@@ -10,7 +10,7 @@ export async function GET() {
   try {
     const packs = await Pack.find({});
     return NextResponse.json(packs);
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json({ error: err.message });
   }
 }

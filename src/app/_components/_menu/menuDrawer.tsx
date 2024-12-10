@@ -6,7 +6,7 @@ const MenuDrawer = ({
   openMenuDrawer,
   children,
 }: {
-  toggleMenuDrawer: any;
+  toggleMenuDrawer: () => void;
   openMenuDrawer: boolean;
   children: React.ReactNode;
 }) => {

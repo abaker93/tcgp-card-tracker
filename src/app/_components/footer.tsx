@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const Footer = (props: any) => {
+const Footer = () => {
   return (
     <div className="min-w-100 shadow-xl">
       <div className="relative mx-auto max-w-7xl p-8">

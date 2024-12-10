@@ -7,7 +7,7 @@ const Modal = ({
   children,
 }: {
   show: boolean;
-  onClick: any;
+  onClick: () => void;
   children: React.ReactNode;
 }) => {
   return (

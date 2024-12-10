@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import '@/app/ui/globals.css';
-import Footer from './_components/footer';
+// import Footer from './_components/footer';
 
 export const metadata: Metadata = {
   title: 'Pokémon TCG Pocket Card Tracker',

@@ -6,8 +6,8 @@ const GradientButton = ({
   disabled,
   children,
 }: {
-  className?: any;
-  onClick?: any;
+  className?: undefined;
+  onClick?: () => void;
   disabled?: boolean;
   children: React.ReactNode;
 }) => {
