@@ -18,7 +18,9 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
   const id = use(params).id;
 
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<{
+    [key: string]: { [key: string]: number };
+  }>({});
   const [lastSaveDate, setLastSaveDate] = useState('');
 
   const [cardSets, setCardSets] = useState([]);
