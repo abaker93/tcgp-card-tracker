@@ -2,6 +2,7 @@
 
 - [ ] all card data (moves, abilities, weaknesses, etc)
 - [ ] add search + filtering
+- [ ] better loading screens
 - [ ] dark mode (as soon as Pokemon TCGP offers it 😂)
 - [ ] more accessiblity
 - [ ] narrow stats to current page
