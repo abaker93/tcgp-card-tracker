@@ -10,7 +10,7 @@ const Alerts = ({
   return (
     <div
       className={clsx(
-        'fixed top-5 z-10 max-w-sm rounded-3xl bg-blue-50 p-8 shadow-btn transition',
+        'fixed bottom-5 z-10 max-w-sm rounded-3xl bg-blue-50 p-8 shadow-btn transition',
         { '-left-full': show == false, 'left-5': show == true },
       )}
     >
