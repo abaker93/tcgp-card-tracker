@@ -20,7 +20,7 @@ export const getUserData = (setArr: { id: string }[]) => {
 
   if (sets.length > 0) {
     if (!data) {
-      console.log(sets);
+      // console.log(sets);
       sets.map((s: string | { id: string }) => {
         const key = typeof s === 'string' ? s : s.id;
         data = {

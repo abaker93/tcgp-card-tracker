@@ -80,15 +80,20 @@ const Page = ({ params }: { params: Promise<{ set: string }> }) => {
   }, [lastSaveDate]);
 
   useEffect(() => {
-    if (!userData[set]) return;
-
-    const tempCount = (o: { [key: string]: number }) => {
-      return Object.values(o).reduce((a: number, b: number) => a + b, 0);
+    const tempCount = () => {
+      if (!userData || Object.keys(userData).length === 0) {
+        return 0;
+      } else {
+        if (!userData[set]) return 0;
+        return Object.values(userData[set]).reduce(
+          (a: number, b: number) => a + b,
+          0,
+        );
+      }
     };
 
-    setCount(tempCount(userData[set]));
-
-    if (Object.keys(userData).length > 0) {
+    setCount(tempCount());
+    if (userData && Object.keys(userData).length > 0) {
       saveToLocalStorage('userData', JSON.stringify(userData));
     }
   }, [userData, set]);

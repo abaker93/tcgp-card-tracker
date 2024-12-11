@@ -64,9 +64,13 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    setUserData(getUserData(cardSets));
-    setLoading(false);
-  }, [cardSets]);
+    if (!userData || Object.keys(userData).length === 0) {
+      setUserData(getUserData(cardSets));
+    }
+    if (cards.length > 0) {
+      setLoading(false);
+    }
+  }, [cardSets, cards, userData]);
 
   useEffect(() => {
     setShowSaveAlert(saveAlertTimeout(lastSaveDate));
@@ -127,6 +131,8 @@ const Page = () => {
   const toggleStats = () => {
     setShowStats(!showStats);
   };
+
+  // console.log(cardSets);
 
   return loading ? (
     <div>Loading...</div>

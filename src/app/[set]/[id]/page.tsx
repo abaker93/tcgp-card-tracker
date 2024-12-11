@@ -70,30 +70,31 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
   }, [set, id]);
 
   useEffect(() => {
-    setUserData(getUserData(cardSets));
-  }, [cardSets]);
-
-  useEffect(() => {
+    if (!userData || Object.keys(userData).length === 0) {
+      setUserData(getUserData(cardSets));
+    }
     if (card.name !== '') {
       setLoading(false);
     }
-  }, [card]);
+  }, [cardSets, card, userData]);
 
   useEffect(() => {
     setShowSaveAlert(saveAlertTimeout(lastSaveDate));
   }, [lastSaveDate]);
 
   useEffect(() => {
-    if (!userData) return;
-    if (!userData[set]) return;
+    const tempCount = () => {
+      if (!userData || Object.keys(userData).length === 0) {
+        return 0;
+      } else {
+        if (!userData[set][id]) return 0;
 
-    if (!userData[set][id]) {
-      return;
-    } else {
-      setCount(userData[set][id]);
-    }
+        return userData[set][id];
+      }
+    };
 
-    if (Object.keys(userData).length > 0) {
+    setCount(tempCount());
+    if (userData && Object.keys(userData).length > 0) {
       saveToLocalStorage('userData', JSON.stringify(userData));
     }
   }, [userData, id, set]);
