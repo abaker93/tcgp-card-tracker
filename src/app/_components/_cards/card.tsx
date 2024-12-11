@@ -28,6 +28,7 @@ const Card = ({
             alt={card.name}
             className={clsx({ grayscale: count < 1 })}
           />
+          <p className="sr-only">{card.name}</p>
         </Link>
 
         <div className="absolute bottom-0 left-0 w-2/5 rounded-bl-lg rounded-tr-2xl bg-slate-600 py-0.5 text-center text-sm font-bold leading-none text-white">
