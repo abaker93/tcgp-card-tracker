@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import Alerts from './_components/alerts';
+// import Alerts from './_components/alerts';
 import Header from '@/app/_components/header';
 
 import { getUserData, saveToLocalStorage } from './lib/functions';
@@ -14,6 +14,7 @@ import SetHeader from './_components/_cards/setHeader';
 import Stats from './_components/_stats/stats';
 import clsx from 'clsx';
 import { CardType } from '@/app/lib/interfaces';
+import SaveAlert from './_components/_alerts/saveAlert';
 
 const Page = () => {
   const [loading, setLoading] = useState(true);
@@ -138,12 +139,10 @@ const Page = () => {
     <div>Loading...</div>
   ) : (
     <>
-      <Alerts show={showSaveAlert}>
-        <p className="font-bold">
-          Your data has not been saved in the last 7 days.
-        </p>
-        <p>Don&apos;t forget to backup your data!</p>
-      </Alerts>
+      <SaveAlert
+        show={showSaveAlert}
+        setShow={(e: boolean) => setShowSaveAlert(e)}
+      />
 
       <Header
         userData={userData}

@@ -1,6 +1,5 @@
 'use client';
 
-import Alerts from '@/app/_components/alerts';
 import { use, useEffect, useState } from 'react';
 import Header from '@/app/_components/header';
 import MainContainer from '@/app/_components/_ui/main';
@@ -13,6 +12,7 @@ import { ImageWithFallback } from '@/app/lib/imgWithFallback';
 import { energyImg, packImg, rarity } from '@/app/lib/imgUtils';
 import { IconCard, IconMinus, IconPlus } from '@/app/ui/icons';
 import { CardType } from '@/app/lib/interfaces';
+import SaveAlert from '@/app/_components/_alerts/saveAlert';
 
 const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
   const set = use(params).set.toUpperCase();
@@ -148,12 +148,10 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
     <div>Loading...</div>
   ) : (
     <>
-      <Alerts show={showSaveAlert}>
-        <p className="font-bold">
-          Your data has not been saved in the last 7 days.
-        </p>
-        <p>Don&apos;t forget to backup your data!</p>
-      </Alerts>
+      <SaveAlert
+        show={showSaveAlert}
+        setShow={(e: boolean) => setShowSaveAlert(e)}
+      />
 
       <Header
         userData={userData}

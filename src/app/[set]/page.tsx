@@ -2,12 +2,12 @@
 
 import { use, useEffect, useState } from 'react';
 
-import Alerts from '@/app/_components/alerts';
 import Header from '@/app/_components/header';
 
 import { getUserData, saveToLocalStorage } from '@/app/lib/functions';
 import CardContainer from '@/app/_components/_cards/container';
 import MainContainer from '@/app/_components/_ui/main';
+import SaveAlert from '@/app/_components/_alerts/saveAlert';
 import SettingsBar from '@/app/_components/_cards/settingsBar';
 import Card from '@/app/_components/_cards/card';
 import Stats from '@/app/_components/_stats/stats';
@@ -138,12 +138,10 @@ const Page = ({ params }: { params: Promise<{ set: string }> }) => {
     <div>Loading...</div>
   ) : (
     <>
-      <Alerts show={showSaveAlert}>
-        <p className="font-bold">
-          Your data has not been saved in the last 7 days.
-        </p>
-        <p>Don&apos;t forget to backup your data!</p>
-      </Alerts>
+      <SaveAlert
+        show={showSaveAlert}
+        setShow={(e: boolean) => setShowSaveAlert(e)}
+      />
 
       <Header
         userData={userData}
