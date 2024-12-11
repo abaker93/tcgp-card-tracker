@@ -74,16 +74,20 @@ const Page = () => {
 
   useEffect(() => {
     const tempCount = () => {
-      return Object.keys(userData).reduce((prev, key) => {
-        const setSum = Object.keys(userData[key]).reduce((prev2, key2) => {
-          return prev2 + userData[key][key2];
+      if (!userData || Object.keys(userData).length === 0) {
+        return 0;
+      } else {
+        return Object.keys(userData).reduce((prev, key) => {
+          const setSum = Object.keys(userData[key]).reduce((prev2, key2) => {
+            return prev2 + userData[key][key2];
+          }, 0);
+          return prev + setSum;
         }, 0);
-        return prev + setSum;
-      }, 0);
+      }
     };
 
     setCount(tempCount());
-    if (Object.keys(userData).length > 0) {
+    if (userData && Object.keys(userData).length > 0) {
       saveToLocalStorage('userData', JSON.stringify(userData));
     }
   }, [userData]);
