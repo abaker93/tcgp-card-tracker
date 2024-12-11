@@ -13,17 +13,47 @@ import { ImageWithFallback } from '@/app/lib/imgWithFallback';
 import { energyImg, packImg, rarity } from '@/app/lib/imgUtils';
 import { IconCard, IconMinus, IconPlus } from '@/app/ui/icons';
 
+interface Card {
+  image: string;
+  name: string;
+  rarity: number;
+  set: string;
+  packs: string[];
+  order: number;
+  illustrator?: string;
+  moves?: { damage: number; energy: string[]; name: string; text?: string }[];
+  category: string;
+  stage?: string;
+  subcategory?: string;
+  energy?: string;
+  hp?: number;
+  weakness?: { type: string; damage: number };
+  retreat?: number;
+  exRule?: string;
+}
+
 const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
   const set = use(params).set.toUpperCase();
   const id = use(params).id;
 
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<{
+    [key: string]: { [key: string]: number };
+  }>({});
   const [lastSaveDate, setLastSaveDate] = useState('');
 
   const [cardSets, setCardSets] = useState([]);
-  const [card, setCard] = useState({});
-  const [pack, setPack] = useState([]);
+
+  const [card, setCard] = useState<Card>({
+    image: '',
+    name: '',
+    rarity: 0,
+    set: '',
+    packs: [],
+    order: 0,
+    category: '',
+  });
+  const [pack, setPack] = useState<{ uniqueCards: number }>({ uniqueCards: 0 });
 
   const [showSaveAlert, setShowSaveAlert] = useState(false);
   const [count, setCount] = useState(0);
@@ -223,7 +253,12 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
                   </div>
                   {card.moves.map(
                     (
-                      move: { damage: number; energy: string[]; name: string },
+                      move: {
+                        damage: number;
+                        energy: string[];
+                        name: string;
+                        text?: string;
+                      },
                       index: number,
                     ) => (
                       <div key={index} className="mb-5 last:mb-0">

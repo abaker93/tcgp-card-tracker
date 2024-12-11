@@ -25,7 +25,17 @@ import Modal from '@/app/_components/_ui/modal';
 import GradientButton from '@/app/_components/_ui/_buttons/gradient';
 import LinkButton from '@/app/_components/_ui/_buttons/link';
 
-const Header = (props: undefined) => {
+const Header = ({
+  userData,
+  setUserData,
+  setLastSaveDate,
+  back,
+}: {
+  userData: { [key: string]: { [key: string]: number } };
+  setUserData: (e: { [key: string]: { [key: string]: number } }) => void;
+  setLastSaveDate: (e: string) => void;
+  back?: string;
+}) => {
   const [openMenuDrawer, setOpenMenuDrawer] = useState(false);
   const [openStorageModal, setOpenStorageModal] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState('');
@@ -36,15 +46,15 @@ const Header = (props: undefined) => {
   const [copyBtnText, setCopyBtnText] = useState('Copy to clipboard');
 
   useEffect(() => {
-    setTextAreaValue(JSON.stringify(props.userData));
-  }, [props.userData]);
+    setTextAreaValue(JSON.stringify(userData));
+  }, [userData]);
 
   useEffect(() => {
     try {
       JSON.parse(textAreaValue);
       setJsonError({ error: false, message: '' });
     } catch (e) {
-      setJsonError({ error: true, message: e.toString() });
+      setJsonError({ error: true, message: (e as Error).toString() });
     }
   }, [textAreaValue]);
 
@@ -65,8 +75,8 @@ const Header = (props: undefined) => {
   return (
     <div className="min-w-100 shadow-xl">
       <div className="relative mx-auto max-w-7xl p-8">
-        {props.back && (
-          <Link href={props.back} className="absolute left-0 top-0 p-6">
+        {back && (
+          <Link href={back} className="absolute left-0 top-0 p-6">
             <button
               className="mr-0.5 rounded-full bg-indigo-50 p-2 text-3xl shadow-btn transition hover:scale-110 hover:bg-indigo-100/50"
               type="button"
@@ -161,8 +171,8 @@ const Header = (props: undefined) => {
               </LinkButton>
               <GradientButton
                 onClick={() => {
-                  props.setUserData(JSON.parse(textAreaValue));
-                  props.setLastSaveDate(new Date().toString());
+                  setUserData(JSON.parse(textAreaValue));
+                  setLastSaveDate(new Date().toString());
                   saveToLocalStorage('lastSaveDate', new Date().toString());
                   saveToLocalStorage('userData', textAreaValue);
                   toggleStorageModal();
