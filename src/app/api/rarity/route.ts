@@ -11,6 +11,10 @@ export async function GET() {
     const rarities = await Rarity.find({});
     return NextResponse.json(rarities);
   } catch (err: unknown) {
-    return NextResponse.json({ error: err.message });
+    if (err instanceof Error) {
+      return NextResponse.json({ error: err.message });
+    } else {
+      return NextResponse.json({ error: 'An unknown error occurred' });
+    }
   }
 }

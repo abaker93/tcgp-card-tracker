@@ -12,18 +12,21 @@ import SettingsBar from '@/app/_components/_cards/settingsBar';
 import Card from '@/app/_components/_cards/card';
 import Stats from '@/app/_components/_stats/stats';
 import clsx from 'clsx';
+import { CardType } from '@/app/lib/interfaces';
 
 const Page = ({ params }: { params: Promise<{ set: string }> }) => {
   const set = use(params).set.toUpperCase();
 
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<{
+    [key: string]: { [key: string]: number };
+  }>({});
   const [lastSaveDate, setLastSaveDate] = useState('');
 
   const [cardSets, setCardSets] = useState([]);
   const [cardPacks, setCardPacks] = useState([]);
   const [cardRarity, setCardRarity] = useState([]);
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<CardType[]>([]);
 
   const [showSaveAlert, setShowSaveAlert] = useState(false);
   const [showStats, setShowStats] = useState(false);
@@ -65,6 +68,12 @@ const Page = ({ params }: { params: Promise<{ set: string }> }) => {
     setUserData(getUserData(cardSets));
     setLoading(false);
   }, [cardSets]);
+
+  useEffect(() => {
+    if (cards.length > 0) {
+      setLoading(false);
+    }
+  }, [cards]);
 
   useEffect(() => {
     setShowSaveAlert(saveAlertTimeout(lastSaveDate));
@@ -158,12 +167,10 @@ const Page = ({ params }: { params: Promise<{ set: string }> }) => {
 
         <CardContainer>
           {cards
-            .filter((card: { set: string }) => card.set === set)
-            .filter((card: { show: boolean }) => card.show)
-            .sort(
-              (a: { order: number }, b: { order: number }) => a.order - b.order,
-            )
-            .map((card: undefined) => (
+            .filter((card: CardType) => card.set === set)
+            .filter((card: CardType) => card.show)
+            .sort((a: CardType, b: CardType) => a.order - b.order)
+            .map((card: CardType) => (
               <Card
                 key={card._id}
                 card={card}

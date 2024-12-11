@@ -13,10 +13,13 @@ import Card from './_components/_cards/card';
 import SetHeader from './_components/_cards/setHeader';
 import Stats from './_components/_stats/stats';
 import clsx from 'clsx';
+import { CardType } from '@/app/lib/interfaces';
 
 const Page = () => {
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<{
+    [key: string]: { [key: string]: number };
+  }>({});
   const [lastSaveDate, setLastSaveDate] = useState('');
 
   const [cardSets, setCardSets] = useState([]);
@@ -157,29 +160,31 @@ const Page = () => {
           />
         </div>
 
-        {cardSets.map((set: { [key: string]: undefined }) => (
-          <div key={set._id}>
-            <SetHeader set={set} />
-            <CardContainer>
-              {cards
-                .filter((card: { set: string }) => card.set === set.id)
-                .filter((card: { show: boolean }) => card.show)
-                .sort(
-                  (a: { order: number }, b: { order: number }) =>
-                    a.order - b.order,
-                )
-                .map((card: { [key: string]: undefined }) => (
-                  <Card
-                    key={card._id}
-                    card={card}
-                    count={userData[card.set][card.order] || 0}
-                    onAdd={() => onAdd(card)}
-                    onSubtract={() => onSubtract(card)}
-                  />
-                ))}
-            </CardContainer>
-          </div>
-        ))}
+        {cardSets.map(
+          (set: { _id: string; id: string; name: string; order: number }) => (
+            <div key={set._id}>
+              <SetHeader set={set} />
+              <CardContainer>
+                {cards
+                  .filter((card: { set: string }) => card.set === set.id)
+                  .filter((card: { show: boolean }) => card.show)
+                  .sort(
+                    (a: { order: number }, b: { order: number }) =>
+                      a.order - b.order,
+                  )
+                  .map((card: CardType) => (
+                    <Card
+                      key={card._id}
+                      card={card}
+                      count={userData[card.set][card.order] || 0}
+                      onAdd={() => onAdd(card)}
+                      onSubtract={() => onSubtract(card)}
+                    />
+                  ))}
+              </CardContainer>
+            </div>
+          ),
+        )}
       </MainContainer>
     </>
   );

@@ -6,7 +6,7 @@ const IconButton = ({
   children,
 }: {
   onClick: () => void;
-  className?: undefined;
+  className?: string | undefined;
   children: React.ReactNode;
 }) => {
   return (

@@ -75,7 +75,7 @@ export const energyImg = (energy: string) => {
   }
 };
 
-export const packImg = (set: string, packs?: string[]) => {
+export const packImg = (set: string, packs?: string[] | number[]) => {
   switch (set) {
     case 'A1':
       if (!packs) {
@@ -98,13 +98,13 @@ export const packImg = (set: string, packs?: string[]) => {
             />
           );
         } else {
-          switch (packs[0].id) {
+          switch (packs[0]) {
             case 1:
             case 'Charizard': {
               return (
                 <Image
                   src="/img/sets/a1-1-logo.png"
-                  alt={`Genetic Apex - ${packs[0].name}`}
+                  alt={`Genetic Apex - ${packs[0]}`}
                   width="294"
                   height="209"
                 />
@@ -115,7 +115,7 @@ export const packImg = (set: string, packs?: string[]) => {
               return (
                 <Image
                   src="/img/sets/a1-2-logo.png"
-                  alt={`Genetic Apex - ${packs[0].name}`}
+                  alt={`Genetic Apex - ${packs[0]}`}
                   width="294"
                   height="209"
                 />
@@ -126,7 +126,7 @@ export const packImg = (set: string, packs?: string[]) => {
               return (
                 <Image
                   src="/img/sets/a1-3-logo.png"
-                  alt={`Genetic Apex - ${packs[0].name}`}
+                  alt={`Genetic Apex - ${packs[0]}`}
                   width="294"
                   height="209"
                 />
@@ -154,7 +154,7 @@ export const packImg = (set: string, packs?: string[]) => {
             height="254"
           />;
         } else {
-          switch (packs[0].id) {
+          switch (packs[0]) {
             case 1:
             case 'Vol 1':
               return (

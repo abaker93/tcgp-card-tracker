@@ -19,6 +19,9 @@ export async function GET(
     );
     return NextResponse.json(res);
   } catch (err: unknown) {
-    return NextResponse.json({ error: err.message });
+    if (err instanceof Error) {
+      return NextResponse.json({ error: err.message });
+    }
+    return NextResponse.json({ error: 'An unknown error occurred' });
   }
 }

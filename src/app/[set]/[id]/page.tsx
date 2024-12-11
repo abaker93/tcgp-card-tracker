@@ -12,25 +12,7 @@ import {
 import { ImageWithFallback } from '@/app/lib/imgWithFallback';
 import { energyImg, packImg, rarity } from '@/app/lib/imgUtils';
 import { IconCard, IconMinus, IconPlus } from '@/app/ui/icons';
-
-interface Card {
-  image: string;
-  name: string;
-  rarity: number;
-  set: string;
-  packs: string[];
-  order: number;
-  illustrator?: string;
-  moves?: { damage: number; energy: string[]; name: string; text?: string }[];
-  category: string;
-  stage?: string;
-  subcategory?: string;
-  energy?: string;
-  hp?: number;
-  weakness?: { type: string; damage: number };
-  retreat?: number;
-  exRule?: string;
-}
+import { CardType } from '@/app/lib/interfaces';
 
 const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
   const set = use(params).set.toUpperCase();
@@ -44,14 +26,16 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
 
   const [cardSets, setCardSets] = useState([]);
 
-  const [card, setCard] = useState<Card>({
-    image: '',
+  const [card, setCard] = useState<CardType>({
+    _id: '',
     name: '',
+    image: '',
     rarity: 0,
     set: '',
     packs: [],
     order: 0,
     category: '',
+    show: false,
   });
   const [pack, setPack] = useState<{ uniqueCards: number }>({ uniqueCards: 0 });
 
@@ -90,7 +74,7 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
   }, [cardSets]);
 
   useEffect(() => {
-    if (Object.keys(card).length > 0) {
+    if (card.name !== '') {
       setLoading(false);
     }
   }, [card]);
@@ -225,7 +209,10 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
               {/* pack + number */}
               <div className="grid grid-flow-col grid-cols-8 items-center rounded-full px-5 py-2 shadow-btn">
                 <div className="col-span-3 w-16 justify-self-center">
-                  {packImg(card.set, card.packs)}
+                  {packImg(
+                    card.set,
+                    card.packs.map((p: { id: number }) => p.id),
+                  )}
                 </div>
                 <div className="col-span-5 flex items-center rounded-full px-5 py-1 shadow-inset-box">
                   <div className="rounded-md bg-slate-900 px-5 py-0.5 text-sm font-bold leading-none text-white">

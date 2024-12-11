@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PillButton from '../_ui/_buttons/pill';
 import clsx from 'clsx';
 import { packImg, rarity } from '@/app/lib/imgUtils';
+import { CardType } from '@/app/lib/interfaces';
 
 const Stats = ({
   userData,
@@ -11,12 +12,7 @@ const Stats = ({
   cardRarity,
 }: {
   userData: { [key: string]: { [key: string]: number } };
-  cards: {
-    order: number;
-    set: string;
-    rarity: number;
-    packs?: { name: string }[];
-  }[];
+  cards: CardType[];
   cardSets: { id: string }[];
   cardPacks: { name: string; set: { id: string } }[];
   cardRarity: { order: number }[];
@@ -91,9 +87,9 @@ const Stats = ({
             let packTotal = 0;
 
             cards
-              .filter((card: { set: string }) => card.set === set.id)
+              .filter((card: CardType) => card.set === set.id)
               .filter(
-                (card: { packs?: { name: string }[] }) =>
+                (card: CardType) =>
                   card.packs &&
                   card.packs.some(
                     (p: { name: string }) => p.name === pack.name,
@@ -192,7 +188,7 @@ const Stats = ({
                   packGraphData[key][pack].total && (
                     <Card
                       key={pack}
-                      image={packImg(key, [{ id: pack, name: pack }])}
+                      image={packImg(key, [pack])}
                       count={packGraphData[key][pack].count || 0}
                       total={packGraphData[key][pack].total}
                     />

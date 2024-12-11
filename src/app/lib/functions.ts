@@ -4,14 +4,14 @@ export const copyToClipboard = (text: string) => {
   // console.log('Copied to clipboard:', text);
 };
 
-export const getUserData = (setArr: undefined[]) => {
-  const ls: string = localStorage.getItem('userData');
-  let data = JSON.parse(ls);
+export const getUserData = (setArr: { id: string }[]) => {
+  const ls: string | null = localStorage.getItem('userData');
+  let data = ls ? JSON.parse(ls) : null;
 
   // console.log(setArr);
 
-  const sets = setArr.map((s) => {
-    if (Object.keys(s).length > 0) {
+  const sets = setArr.map((s: { id: string }) => {
+    if (s && Object.keys(s).length > 0) {
       return s.id;
     } else {
       return s;
@@ -20,20 +20,23 @@ export const getUserData = (setArr: undefined[]) => {
 
   if (sets.length > 0) {
     if (!data) {
-      sets.map((s: string) => {
+      console.log(sets);
+      sets.map((s: string | { id: string }) => {
+        const key = typeof s === 'string' ? s : s.id;
         data = {
           ...data,
-          [s]: {
+          [key]: {
             '1': 0,
           },
         };
       });
     } else {
-      sets.map((s: string) => {
-        if (!data[s]) {
+      sets.map((s: string | { id: string }) => {
+        const key = typeof s === 'string' ? s : s.id;
+        if (!data[key]) {
           data = {
             ...data,
-            [s]: {
+            [key]: {
               '1': 0,
             },
           };
