@@ -211,7 +211,9 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
                 <div className="col-span-3 w-16 justify-self-center">
                   {packImg(
                     card.set,
-                    card.packs.map((p: { id: number }) => p.id),
+                    card.packs
+                      ? card.packs.map((p: { id: number }) => p.id)
+                      : [],
                   )}
                 </div>
                 <div className="col-span-5 flex items-center rounded-full px-5 py-1 shadow-inset-box">
