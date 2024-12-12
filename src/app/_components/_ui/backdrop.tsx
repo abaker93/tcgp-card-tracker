@@ -15,8 +15,7 @@ const Backdrop = ({
         className,
         'fixed inset-0 z-50 h-screen w-screen bg-sky-700/20 backdrop-blur-sm transition',
         {
-          'pointer-events-none opacity-0': !show,
-          'pointer-events-auto opacity-100': show,
+          hidden: !show,
         },
       )}
       role="dialog"

@@ -17,8 +17,7 @@ const Modal = ({
         className={clsx(
           'inset-0 z-50 h-auto w-3/4 max-w-full rounded-3xl bg-blue-50 px-8 py-8 shadow-btn transition sm:w-1/2',
           {
-            'opacity-0': !show,
-            'opacity-100': show,
+            hidden: !show,
           },
         )}
       >
