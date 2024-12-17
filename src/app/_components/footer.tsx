@@ -2,11 +2,12 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <div className="min-w-100 shadow-xl">
+    <div className="min-w-100">
       <div className="relative mx-auto max-w-7xl p-8">
         <div className="text-sm text-slate-500 sm:flex sm:justify-between sm:gap-10">
           <p className="text-xs text-slate-400">
-            V 1.0.0 |{' '}
+            V 1.0.4
+            {' | '}
             <Link
               href="https://github.com/abaker93/tcgp-card-tracker/blob/master/README.md"
               target="_blank"

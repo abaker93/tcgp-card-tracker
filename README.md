@@ -15,19 +15,19 @@
 ## Known Bugs
 
 - [x] ~~**userData**  
-fix the prod Application Error because of missing userData~~
+      fix the prod Application Error because of missing userData~~
 
 - [x] ~~modal  
-hide instead of just no opacity~~
+      hide instead of just no opacity~~
 
 - [x] ~~alert  
-add dismiss button~~
+      add dismiss button~~
 
-- [ ] card page  
-mobile layout
+- [x] ~~card page  
+      mobile layout~~
 
 - [ ] header  
-change by page
+      change by page
 
 - [ ] menu  
-dismiss drawer when user clicks on same page (or disable menu option for same page)
+      dismiss drawer when user clicks on same page (or disable menu option for same page)
