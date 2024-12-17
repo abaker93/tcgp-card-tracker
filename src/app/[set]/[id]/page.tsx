@@ -15,7 +15,10 @@ import { CardType } from '@/app/lib/interfaces';
 import SaveAlert from '@/app/_components/_alerts/saveAlert';
 
 const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
-  const set = use(params).set.toUpperCase();
+  const set =
+    use(params).set.toUpperCase() === 'A1A'
+      ? 'A1a'
+      : use(params).set.toUpperCase();
   const id = use(params).id;
 
   const [loading, setLoading] = useState(true);
