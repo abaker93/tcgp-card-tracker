@@ -15,7 +15,10 @@ import clsx from 'clsx';
 import { CardType } from '@/app/lib/interfaces';
 
 const Page = ({ params }: { params: Promise<{ set: string }> }) => {
-  const set = use(params).set.toUpperCase();
+  const set =
+    use(params).set.toUpperCase() === 'A1A'
+      ? 'A1a'
+      : use(params).set.toUpperCase();
 
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<{

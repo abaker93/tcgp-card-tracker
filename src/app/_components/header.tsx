@@ -106,6 +106,7 @@ const Header = ({
               </Link>
               <Divider />
               <SetLink set="A1" href="A1" name="Genetic Apex" />
+              <SetLink set="A1a" href="A1a" name="Mythical Island" />
               <SetLink set="P-A" href="PA" name="Promo-A" />
               <Divider />
               <LinkButton

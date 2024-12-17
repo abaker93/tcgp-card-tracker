@@ -169,31 +169,35 @@ const Page = () => {
           />
         </div>
 
-        {cardSets.map(
-          (set: { _id: string; id: string; name: string; order: number }) => (
-            <div key={set._id}>
-              <SetHeader set={set} />
-              <CardContainer>
-                {cards
-                  .filter((card: { set: string }) => card.set === set.id)
-                  .filter((card: { show: boolean }) => card.show)
-                  .sort(
-                    (a: { order: number }, b: { order: number }) =>
-                      a.order - b.order,
-                  )
-                  .map((card: CardType) => (
-                    <Card
-                      key={card._id}
-                      card={card}
-                      count={userData[card.set][card.order] || 0}
-                      onAdd={() => onAdd(card)}
-                      onSubtract={() => onSubtract(card)}
-                    />
-                  ))}
-              </CardContainer>
-            </div>
-          ),
-        )}
+        {cardSets
+          .sort(
+            (a: { order: number }, b: { order: number }) => a.order - b.order,
+          )
+          .map(
+            (set: { _id: string; id: string; name: string; order: number }) => (
+              <div key={set._id}>
+                <SetHeader set={set} />
+                <CardContainer>
+                  {cards
+                    .filter((card: { set: string }) => card.set === set.id)
+                    .filter((card: { show: boolean }) => card.show)
+                    .sort(
+                      (a: { order: number }, b: { order: number }) =>
+                        a.order - b.order,
+                    )
+                    .map((card: CardType) => (
+                      <Card
+                        key={card._id}
+                        card={card}
+                        count={userData[card.set][card.order] || 0}
+                        onAdd={() => onAdd(card)}
+                        onSubtract={() => onSubtract(card)}
+                      />
+                    ))}
+                </CardContainer>
+              </div>
+            ),
+          )}
       </MainContainer>
     </>
   );

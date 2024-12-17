@@ -135,6 +135,16 @@ export const packImg = (set: string, packs?: string[] | number[]) => {
           }
         }
       }
+    case 'A1a': {
+      return (
+        <Image
+          src="/img/sets/a1a-logo.png"
+          alt="Mythical Island"
+          width="291"
+          height="133"
+        />
+      );
+    }
     case 'PA': {
       if (!packs) {
         return (
