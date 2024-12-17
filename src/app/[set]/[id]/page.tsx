@@ -135,7 +135,7 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
     data: {
       body: 'px-5 py-1',
       heading:
-        'min-w-60 bg-gradient-to-r from-indigo-100/30 to-blue-100/40 px-5 py-1 text-center',
+        'min-w-28 md:min-w-60 bg-gradient-to-r from-indigo-100/30 to-blue-100/40 px-5 py-1 text-center',
       row: 'flex overflow-hidden rounded-full shadow-inset-box',
     },
     section: {
@@ -163,8 +163,8 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
       />
 
       <MainContainer>
-        <div className="grid grid-flow-col grid-cols-12">
-          <div className="col-span-4">
+        <div className="-m-8 grid lg:m-0 lg:grid-flow-col lg:grid-cols-12 lg:gap-8">
+          <div className="flex justify-center px-8 py-6 lg:col-span-4 lg:block lg:p-0">
             <ImageWithFallback
               width={367}
               height={512}
@@ -175,15 +175,11 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
             />
           </div>
 
-          <div className="col-span-8 rounded-3xl bg-blue-50 shadow-btn">
-            <div className="flex flex-col gap-8 p-8">
+          <div className="flex w-full max-w-4xl justify-center justify-self-center rounded-3xl bg-blue-50 shadow-btn lg:col-span-8">
+            <div className="flex max-w-screen-sm flex-col gap-8 p-4 lg:p-8">
               {/* name + rarity + count */}
               <div className="relative flex flex-col gap-2">
-                <h1 className="text-center text-3xl font-bold">{card.name}</h1>
-                <div className="flex h-5 justify-center">
-                  {rarity(card.rarity)}
-                </div>
-                <div className="absolute right-0 top-0 flex-col">
+                <div className="flex justify-between md:absolute md:right-0 md:top-0 md:flex-col">
                   <div className="flex w-min items-center gap-5 rounded-full px-5 py-1 text-xl font-bold text-slate-500 shadow-inset-box">
                     <IconCard />
                     <span className="text-slate-800">{count}</span>
@@ -203,19 +199,25 @@ const Page = ({ params }: { params: Promise<{ id: number; set: string }> }) => {
                     </button>
                   </div>
                 </div>
+                <h1 className="text-center text-3xl font-bold">{card.name}</h1>
+                <div className="flex h-5 justify-center">
+                  {rarity(card.rarity)}
+                </div>
               </div>
 
               {/* pack + number */}
-              <div className="grid grid-flow-col grid-cols-8 items-center rounded-full px-5 py-2 shadow-btn">
-                <div className="col-span-3 w-16 justify-self-center">
-                  {packImg(
-                    card.set,
-                    card.packs
-                      ? card.packs.map((p: { id: number }) => p.id)
-                      : [],
-                  )}
+              <div className="flex items-center rounded-full px-5 py-2 shadow-btn">
+                <div className="w-60 px-4">
+                  <div className="w-16 justify-self-center">
+                    {packImg(
+                      card.set,
+                      card.packs
+                        ? card.packs.map((p: { id: number }) => p.id)
+                        : [],
+                    )}
+                  </div>
                 </div>
-                <div className="col-span-5 flex items-center rounded-full px-5 py-1 shadow-inset-box">
+                <div className="flex grow items-center rounded-full px-5 py-1 shadow-inset-box">
                   <div className="rounded-md bg-slate-900 px-5 py-0.5 text-sm font-bold leading-none text-white">
                     {card.set}
                   </div>
